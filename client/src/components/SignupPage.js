@@ -60,8 +60,8 @@ function SignupPage({ onLogin }) {
 
       <FormField>
         <div className="flex flex-col items-center justify-center">
-          {errors.map((err) => (
-            <ul key={err} className="error-list">Error: {err}</ul>
+          {errors?.map((err) => (
+            <ul key={err} className="text-black bg-emerald-700">Error: {err}</ul>
           ))}
         </div>
       </FormField>
