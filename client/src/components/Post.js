@@ -5,9 +5,9 @@ function Post({ post }) {
   return (
     <>
       <ul className="">
-        <img src={post.image} alt="Post" />
-        <div className="">
-          {post.title}
+        <div className="bg-black text-white h-[250px] w-[250px]">
+          {post.image}
+          {post.description}
         </div>
       </ul>
     </>
