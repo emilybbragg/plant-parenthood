@@ -7,5 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user1 = User.create(username: 'emilyb', password: 'plantlover')
+user2 = User.create(username: 'emilyc', password: 'plantlovr')
 
 puts "✍🏻🗒️ DB seeded!"
