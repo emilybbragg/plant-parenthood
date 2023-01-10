@@ -13,7 +13,7 @@ function LoginPage({ onLogin, user }) {
 
   useEffect(() => {
     if (user) {
-      navigate("/home")
+      navigate("/posts")
     }
     else {
       setIsLoading(false)

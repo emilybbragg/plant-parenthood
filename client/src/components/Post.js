@@ -5,7 +5,7 @@ function Post({ post }) {
   return (
     <>
       <ul className="">
-        <div className="bg-black text-white h-[250px] w-[250px]">
+        <div className="bg-white rounded-sm border-2 border-black text-black h-[250px] w-[250px]">
           {post.image}
           {post.description}
         </div>
