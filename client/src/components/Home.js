@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
-import Post from "./Post";
-import styled from "styled-components";
+//Packages
+import React, { useState, useEffect } from "react"
+import Popup from 'reactjs-popup'
+
+//Components
+import Post from "./Post"
+import styled from "styled-components"
 import FormField from "../styles/FormField"
-import Input from "../styles/Input.js";
-import Label from "../styles/Label.js";
-import Button from "../styles/Button.js";
+import Input from "../styles/Input.js"
+import Label from "../styles/Label.js"
+import Button from "../styles/Button.js"
+
+import 'reactjs-popup/dist/index.css';
 
 
 function Home() {
@@ -58,68 +64,71 @@ function Home() {
   return (
     <>
 
-      <div className="px-20 py-5">
+      <div className="flex flex-col">
+        <span className="flex items-center justify-center">Check out the latest posts, or:</span>
+        <div className="flex items-center justify-center w-full h-[80px] gap-8">
+          <Popup
+            trigger={<button> Create a New Post</button>}
+            // position="right center"
+            className="p-3 rounded-lg flex justify-center items-center bg-emerald-700">
 
-        <div className="bg-emerald-700 flex items-center justify-center w-full h-[80px] gap-8">
-          <button
-            // onClick={ }
-            className="bg-white w-[100px] h-[50px] p-3 rounded-lg flex justify-center items-center">Create a New Post</button>
-          <button
-            // onClick={ }
-            className="bg-white w-[100px] h-[50px] p-3 rounded-lg flex justify-center items-center">Filter By Category</button>
-        </div>
-        <div className="">Check out these latest posts:</div>
-
-
-        <ul className="flex flex-row items-center justify-center justify-between w-full h-full">
-          {posts?.length > 0 ? (posts?.map((post) => (
-            <>
-              <div className="">
-                <Post
-                  key={post.id}
-                  post={post}
-                  className="h-full"
-                // user={user}
+            <div className="w-fit h-fit flex p-3">
+              <form className="w-fit h-fit" onSubmit={handlePostSubmit}>
+                <span className="items-center justify-center flex border-2 rounded-sm h-[150px] w-full border-black">+</span>
+                <span className="font-serif font-semibold text-sm items-center justify-center flex py-3">Post Description</span>
+                <input
+                  type="text"
+                  id="description"
+                  value={postDescription}
+                  onChange={(e) => setPostDescription(e.target.value)}
+                  className="border-2 border-black flex flex-col"
                 />
-              </div>
-            </>
-          ))
-          ) :
-            <div className="">No Posts Yet!</div>
-          }
-        </ul>
+                <div className="font-serif font-semibold text-sm items-center justify-center flex py-3">Category</div>
+                <Button type="submit" className="items-center justify-center flex">Post</Button>
+                <div>
+                  {errors?.map((err) => (
+                    <ul key={err} className="">Error: {err}</ul>
+                  ))}
+                </div>
+              </form>
+            </div>
 
-        {/* <Wrapper> */}
+          </Popup>
 
-        <div className="h-[420px] w-[420px]">
-          <form className="" onSubmit={handlePostSubmit}>
-            <h1 className="">Or, show off your latest addition:</h1>
 
-            <FormField>
-              <Label htmlFor="">Post Image:</Label>
-              <Input type="text" id="image" value={postImage} onChange={(e) => setPostImage(e.target.value)} />
-            </FormField>
-
-            <FormField>
-              <Label htmlFor="">Post Description:</Label>
-              <Input type="text" id="description" value={postDescription} onChange={(e) => setPostDescription(e.target.value)} />
-            </FormField>
-
-            <FormField>
-              <Button type="submit">Submit</Button>
-            </FormField>
-
-            <FormField>
-              <div>
-                {errors?.map((err) => (
-                  <ul key={err} className="">Error: {err}</ul>
-                ))}
-              </div>
-            </FormField>
-          </form>
+          <button
+            // onClick={ }
+            className="w-[100px] h-[50px] p-3 rounded-lg flex justify-center items-center bg-emerald-700">Filter By Category</button>
         </div>
-        {/* </Wrapper> */}
       </div>
+
+
+
+
+
+
+      <ul className="flex flex-row items-center justify-center justify-between w-full h-full gap-3">
+        {posts?.length > 0 ? (posts?.map((post) => (
+          <>
+            <div className="">
+              <Post
+                key={post.id}
+                post={post}
+                className="h-full"
+              // user={user}
+              />
+            </div>
+          </>
+
+
+        ))
+        ) :
+          <div className="">No Posts Yet! Add one to get started.</div>
+        }
+      </ul>
+
+      {/* <Wrapper> */}
+      {/* </Wrapper> */}
     </>
   )
 }
