@@ -4,7 +4,7 @@ import Label from "../styles/Label.js"
 import Input from "../styles/Input.js"
 import Button from "../styles/Button.js"
 
-function LoginForm ( { onLogin }) {
+function LoginForm({ onLogin }) {
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -24,9 +24,9 @@ function LoginForm ( { onLogin }) {
       setIsLoading(false);
       if (r.ok) {
         r.json().then((user) => onLogin(user));
-    } else {
-      r.json().then((err) => setErrors(err.errors))
-    }
+      } else {
+        r.json().then((err) => setErrors(err.errors))
+      }
     });
   }
 
@@ -34,22 +34,22 @@ function LoginForm ( { onLogin }) {
     <form onSubmit={handleSubmit}>
       <FormField>
         <span className="flex items-center justify-center">Username</span>
-        <Input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)}/>
+        <Input className="!w-[300px]" type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
       </FormField>
 
       <FormField>
         <span className="flex items-center justify-center">Password</span>
-        <Input type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        <Input type="password" id="password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
       </FormField>
 
       <FormField>
         <div className="flex flex-col items-center justify-center">
-        <Button>{isLoading ? "Loading..." : "Login"}</Button>
+          <Button className="hover:border-2 !border-green-800">{isLoading ? "Loading..." : "Login"}</Button>
         </div>
       </FormField>
 
       <FormField>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center text-red-700">
           {errors.map((err) => (
             <ul key={err} className="error-list">Error: {err}</ul>
           ))}

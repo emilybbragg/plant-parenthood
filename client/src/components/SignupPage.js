@@ -39,7 +39,7 @@ function SignupPage({ onLogin }) {
     <form onSubmit={handleSubmit}>
       <FormField>
         <span className="flex items-center justify-center">Username</span>
-        <Input type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
+        <Input className="!w-[300px]" type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
       </FormField>
 
       <FormField>
@@ -54,14 +54,14 @@ function SignupPage({ onLogin }) {
 
       <FormField>
         <div className="flex flex-col items-center justify-center">
-          <Button type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
+          <Button className="hover:border-2 !border-green-800" type="submit">{isLoading ? "Loading..." : "Sign Up"}</Button>
         </div>
       </FormField>
 
       <FormField>
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center text-red-700">
           {errors?.map((err) => (
-            <ul key={err} className="text-black bg-emerald-700">Error: {err}</ul>
+            <ul key={err}>Error: {err}</ul>
           ))}
         </div>
       </FormField>

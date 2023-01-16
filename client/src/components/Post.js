@@ -1,13 +1,23 @@
 import React from "react";
 
-function Post({ post }) {
+function Post({
+  post,
+  user,
+}) {
 
   return (
     <>
-      <ul className="">
-        <div className="bg-white rounded-sm border-2 border-black text-black h-[250px] w-[250px]">
-          {post.image}
-          {post.description}
+      <ul className="flex">
+        <div className="bg-emerald-600 rounded border-4 border-white text-black h-[300px] w-[300px] flex flex-col items-center justify-between p-3">
+          {post?.image}
+          <span>{post?.description}</span>
+
+          <div className="flex justify-between">
+            <button>View post</button>
+            <button>{user?.username}</button>
+          </div>
+
+
         </div>
       </ul>
     </>

@@ -4,7 +4,7 @@ import SignupPage from "./SignupPage";
 import LoginForm from "./LoginForm";
 import Button from "../styles/Button.js";
 import styled from "styled-components";
-import plant from "../plant.jpeg"
+import plants from "../plants.jpeg";
 
 function LoginPage({ onLogin, user }) {
   const navigate = useNavigate()
@@ -22,57 +22,52 @@ function LoginPage({ onLogin, user }) {
 
   return (
     <>
-      {/* {isLoading ? <div className="font-sans">Loading our user....</div> : */}
-      <div className="" style={{
-        backgroundImage: `url(${plant})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        height: '100vh',
-      }} >
+      <div className="flex items-center justify-center"
+        style={{
+          backgroundImage: `url(${plants})`,
+          height: '750px'
+          // backgroundRepeat: 'no-repeat',
+          // backgroundSize: 'cover',
+        }} >
 
-        <Wrapper>
-          <div className="flex flex-col">
-            <span className="flex flex-col items-center justify-center">
-              <span className="font-serif font-semibold text-xl text-emerald-700">Plant Parenthood</span>
-              <br></br>
-              <span className="font-serif text-sm">Share. Create. Connect.</span>
-            </span>
-            <br />
-            {showLogin ? (
-              <>
-                <LoginForm onLogin={onLogin} />
-                <Divider />
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <span>Don't have an account?</span>
-                  <Button onClick={() => setShowLogin(false)}>Sign Up</Button>
-                </div>
-              </>
-            ) : (
-              <>
-                <SignupPage onLogin={onLogin} />
-                <Divider />
+        <div className="flex flex-col items-center justify-center   bg-green-50 opacity-90 border-4 border-green-800 rounded-lg h-[600px] w-[500px] p-3">
 
-                <div className="flex flex-col items-center justify-center gap-3">
-                  <span>Already have an account?</span>
-                  <Button onClick={() => setShowLogin(true)}>Log In</Button>
-                </div>
-
-              </>
-            )}
+          <div className="flex flex-col items-center">
+            <span className="font-serif font-semibold text-xl text-green-800">Plant Parenthood</span>
+            <br></br>
+            <span className="font-serif text-sm">Share. Create. Connect.</span>
           </div>
-        </Wrapper>
-      </div>
 
-      {/* }  */}
+          <br />
+          {showLogin ? (
+            <>
+              <LoginForm onLogin={onLogin} />
+              <Divider />
+              <div className="flex flex-col items-center justify-center gap-3">
+                <span>Don't have an account?</span>
+                <Button onClick={() => setShowLogin(false)} className="hover:border-2 !border-green-800">Sign Up</Button>
+              </div>
+            </>
+          ) : (
+            <>
+              <SignupPage onLogin={onLogin} />
+              <Divider />
+
+              <div className="flex flex-col items-center justify-center gap-3">
+                <span>Already have an account?</span>
+                <Button onClick={() => setShowLogin(true)} className="hover:border-2 !border-green-800">Login</Button>
+
+              </div>
+
+            </>
+          )}
+        </div>
+
+
+      </div>
     </>
   );
 }
-
-const Wrapper = styled.section`
-  max-width: 500px;
-  margin: 40px auto;
-  padding: 16px;
-`;
 
 const Divider = styled.hr`
   border: none;
