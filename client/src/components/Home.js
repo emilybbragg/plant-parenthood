@@ -13,16 +13,27 @@ import Label from "../styles/Label.js";
 import Button from "../styles/Button.js";
 import cactus from "../cactus.jpeg";
 import plant from "../plant.jpeg";
+import { useNavigate } from "react-router-dom";
 
 
 function Home({
-  user
+  user,
 
 }) {
   const [posts, setPosts] = useState([])
   const [postImage, setPostImage] = useState([])
-  const [postDescription, setPostDescription] = useState([])
+  const [postCaption, setPostCaption] = useState([])
   const [errors, setErrors] = useState([])
+  const navigate = useNavigate();
+
+  const navigateToPost = (postId) => {
+    navigate(`/posts/${postId}`)
+  };
+
+  const navigateToProfile = (userId) => {
+    navigate(`/users/${userId}`)
+  };
+
 
   console.log(posts)
 
@@ -41,7 +52,8 @@ function Home({
     setErrors([]);
     const postData = {
       image: postImage,
-      description: postDescription
+      caption: postCaption,
+      user_id: user?.id
     };
     fetch("/posts", {
       method: "POST",
@@ -56,7 +68,7 @@ function Home({
             const allPostsWithNew = [...posts, newPost]
             setPosts(allPostsWithNew);
             setPostImage("")
-            setPostDescription("")
+            setPostCaption("")
           })
         } else {
           r.json().then((err) => setErrors(err.errors))
@@ -70,12 +82,11 @@ function Home({
   return (
     <>
 
-      <div className="flex flex-col items-center"
+      <div className="flex flex-col items-center "
         style={{
           backgroundImage: `url(${plant})`,
-          height: '750px',
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'cover',
+          backgroundRepeat: 'repeat-y',
+          backgroundSize: 'cover'
         }}
 
       >
@@ -96,12 +107,12 @@ function Home({
               <div className="w-fit h-fit flex p-3">
                 <form className="w-fit h-fit" onSubmit={handlePostSubmit}>
                   <span className="items-center flex border-2 rounded-sm h-[150px] w-full border-black">+</span>
-                  <span className="font-serif font-semibold text-sm items-center flex py-3">Post Description</span>
+                  <span className="font-serif font-semibold text-sm items-center flex py-3">Post caption</span>
                   <input
                     type="text"
-                    id="description"
-                    value={postDescription}
-                    onChange={(e) => setPostDescription(e.target.value)}
+                    id="caption"
+                    value={postCaption}
+                    onChange={(e) => setPostCaption(e.target.value)}
                     className="border-2 border-black flex flex-col"
                   />
                   <div className="font-serif font-semibold text-sm items-center flex py-3">Category</div>
@@ -133,26 +144,33 @@ function Home({
 
 
         <ul className="flex flex-wrap items-center gap-20 justify-between w-full h-full px-20 py-5 rounded">
+
           {posts?.length > 0 ? (posts?.map((post) => (
-            <>
-              {/* <div className=""> */}
+
+            <div className="flex flex-col">
               <Post
                 key={post.id}
+                id={post.id}
                 post={post}
-                className="h-full "
-
+                className=""
                 user={user}
               />
-              {/* </div> */}
-            </>
+              <div className="flex items-center justify-between  h-[40px] w-[300px] gap-3 bg-white p-3 rounded-b">
+                <button className="" onClick={() => navigateToPost(post?.id)}>View Post</button>
+                <button className="" onClick={() => navigateToProfile(user?.id)}>{user?.username}</button>
+
+              </div>
 
 
+            </div>
           ))
           ) :
-            <div className="">No Posts Yet! Add one to get started.</div>
+            <div className="flex justify-center items-center text-3xl text-green-800 opacity-60 pl-[400px] pb-[200px]">
+              No Posts Yet! Add one to get started.
+            </div>
           }
-        </ul>
 
+        </ul>
 
       </div>
     </>
