@@ -8,6 +8,7 @@ function SignupPage({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [name, setName] = useState("");
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -23,7 +24,8 @@ function SignupPage({ onLogin }) {
       body: JSON.stringify({
         username,
         password,
-        password_confirmation: passwordConfirmation
+        password_confirmation: passwordConfirmation,
+        name
       }),
     }).then((r) => {
       setIsLoading(false);
@@ -37,6 +39,11 @@ function SignupPage({ onLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <FormField>
+        <span className="flex items-center justify-center">Full Name</span>
+        <Input className="!w-[300px]" type="text" id="name" autoComplete="off" value={name} onChange={(e) => setName(e.target.value)} />
+      </FormField>
+
       <FormField>
         <span className="flex items-center justify-center">Username</span>
         <Input className="!w-[300px]" type="text" id="username" autoComplete="off" value={username} onChange={(e) => setUsername(e.target.value)} />
