@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user1 = User.create(username: 'emilyb', password: 'plantlover')
+user1 = User.create(username: 'emilyb', password: 'plantlover', name: 'Emily Bragg')
 user2 = User.create(username: 'emilyc', password: 'plantlovr')
 
 puts "✍🏻🗒️ DB seeded!"
