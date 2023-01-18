@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :posts
   resources :users
 
+  # get "/users/:user_id/posts", to: 'posts#reviewed_posts'
+
+
   post "/login", to: "sessions#create"
   get "/me", to: "users#show"
   delete "/logout", to: "sessions#destroy"
