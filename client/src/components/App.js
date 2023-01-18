@@ -4,9 +4,13 @@ import LoginPage from "./LoginPage";
 import SignupPage from "./SignupPage";
 import Home from "./Home";
 import NavBar from "./NavBar";
+import SinglePostPage from "./SinglePostPage";
+import ProfilePage from "./ProfilePage"
+
 
 function App() {
   const [user, setUser] = useState(null);
+
 
   useEffect(() => {
     fetch("/me").then((r) => {
@@ -28,8 +32,12 @@ function App() {
         <NavBar user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<LoginPage user={user} onLogin={setUser} />} />
+          <Route path="/posts/:postId" element={<SinglePostPage user={user} />} />
+
           <Route path="/signup" element={<SignupPage />} />
-          <Route path="/posts" element={<Home />} />
+          <Route path="/posts" element={<Home user={user} />} />
+          <Route path="/users/:userId" element={<ProfilePage user={user} setUser={setUser} />} />
+
         </Routes>
       </>
     </div>

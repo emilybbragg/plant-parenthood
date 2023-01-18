@@ -35,7 +35,7 @@ function NavBar({ user, setUser }) {
 
         <div className="flex flex-row gap-3 justify-end items-center">
           <Link to="/posts" className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 border-white">Home</Link>
-          <Link to="/myprofile" className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 !border-white">My Profile</Link>
+          <Link to="/users/userId" className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 !border-white">My Profile</Link>
           <button onClick={handleLogoutClick} className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 !border-white">Logout</button>
         </div>
 
