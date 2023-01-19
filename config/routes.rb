@@ -5,6 +5,9 @@ Rails.application.routes.draw do
 
   # get "/users/:user_id/posts", to: 'posts#reviewed_posts'
 
+  get "/posts/newpost", to: 'posts#create'
+
+
 
   post "/login", to: "sessions#create"
   get "/me", to: "users#show"

@@ -6,6 +6,7 @@ import Home from "./Home";
 import NavBar from "./NavBar";
 import SinglePostPage from "./SinglePostPage";
 import ProfilePage from "./ProfilePage"
+import CreateNewPostPage from "./CreateNewPostPage";
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/posts" element={<Home user={user} />} />
           <Route path="/users/:userId" element={<ProfilePage user={user} setUser={setUser} />} />
+          <Route path="/posts/newpost" element={<CreateNewPostPage user={user} />} />
 
         </Routes>
       </>
