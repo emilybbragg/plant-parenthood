@@ -30,7 +30,7 @@ function LoginPage({ onLogin, user }) {
           // backgroundSize: 'cover',
         }} >
 
-        <div className="flex flex-col items-center justify-center   bg-green-50 opacity-90 border-4 border-green-800 rounded-lg h-[600px] w-[500px] p-3">
+        <div className="flex flex-col items-center justify-center bg-green-50 opacity-90 border-4 border-green-800 rounded-lg h-[700px] w-[500px] p-3">
 
           <div className="flex flex-col items-center">
             <span className="font-serif font-semibold text-xl text-green-800">Plant Parenthood</span>
@@ -52,7 +52,6 @@ function LoginPage({ onLogin, user }) {
             <>
               <SignupPage onLogin={onLogin} />
               <Divider />
-
               <div className="flex flex-col items-center justify-center gap-3">
                 <span>Already have an account?</span>
                 <Button onClick={() => setShowLogin(true)} className="hover:border-2 !border-green-800">Login</Button>
@@ -71,7 +70,7 @@ function LoginPage({ onLogin, user }) {
 
 const Divider = styled.hr`
   border: none;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #FAEBD7;
   margin: 16px 0;
 `;
 

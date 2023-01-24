@@ -7,23 +7,25 @@ import Button from "../styles/Button.js";
 function CreateNewPostPage({
   user,
   posts,
-  setPosts
+  setPosts,
+  post,
 }) {
 
 
-  const [postImage, setPostImage] = useState([])
-  const [postCaption, setPostCaption] = useState([])
+  // const [postImage, setPostImage] = useState("")
+  const [postCaption, setPostCaption] = useState("")
   const [errors, setErrors] = useState([])
 
   function handlePostSubmit(e) {
     e.preventDefault();
     setErrors([]);
     const postData = {
-      image: postImage,
+      // image: postImage,
       caption: postCaption,
-      user_id: user?.id
+      user_id: user?.id,
+      // category_id: category?.id
     };
-    fetch("/posts", {
+    fetch("/posts/newpost", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,15 +37,19 @@ function CreateNewPostPage({
           r.json().then((newPost) => {
             const allPostsWithNew = [...posts, newPost]
             setPosts(allPostsWithNew);
-            setPostImage("")
+            // setPostImage("")
             setPostCaption("")
+            //navigate to home or new post page?
           })
-        } else {
-          r.json().then((err) => setErrors(err.errors))
+        }
+        else {
+          r.json().then((err) => setErrors[err.errors])
         }
       })
 
   }
+  console.log(user)
+
 
   return (
     <div className="flex flex-col items-center"

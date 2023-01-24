@@ -23,13 +23,13 @@ function Home({
 
   const navigate = useNavigate();
 
-  const navigateToPost = (postId) => {
-    navigate(`/posts/${postId}`)
-  };
+  // const navigateToPost = (postId) => {
+  //   navigate(`/posts/${postId}`)
+  // };
 
-  const navigateToProfile = (userId) => {
-    navigate(`/users/${userId}`)
-  };
+  // const navigateToProfile = (userId) => {
+  //   navigate(`/users/${userId}`)
+  // };
 
   const navigateToNewPostForm = (newpost) => {
     navigate(`/posts/${newpost}`)
@@ -48,29 +48,24 @@ function Home({
   }, [])
 
 
-
-
+  console.log(posts)
 
   return (
     <>
 
-      <div className="flex flex-col items-center "
+      <div className="flex flex-col items-center"
         style={{
           backgroundImage: `url(${plant})`,
           backgroundRepeat: 'repeat-y',
-          backgroundSize: 'cover'
+          backgroundSize: 'cover',
+          height: '100vh'
         }}
-
       >
-
 
         <div className="flex flex-row items-center justify-end  h-fit w-fit p-3 rounded-xl">
           <div className="flex items-center justify-end  w-full h-[80px] gap-8">
             <button className="hover:border-2 hover:border-white hover:rounded p-3 text-green-800 opacity-60"
               onClick={() => navigate("/posts/newpost")}>Create a New Post</button>
-
-
-
 
             <button
               // onClick={ }
@@ -90,22 +85,15 @@ function Home({
         <ul className="flex flex-wrap items-center gap-20 justify-between w-full h-full px-20 py-5 rounded">
 
           {posts?.length > 0 ? (posts?.map((post) => (
-
             <div className="flex flex-col">
               <Post
                 key={post.id}
                 id={post.id}
                 post={post}
                 className=""
-                user={post?.user}
+                user={user}
+              // user={post?.user}
               />
-              <div className="flex items-center justify-between  h-[40px] w-[300px] gap-3 bg-white p-3 rounded-b">
-                <button className="" onClick={() => navigateToPost(post?.id)}>View Post</button>
-                <button className="" onClick={() => navigateToProfile(user?.id)}>{user?.username}</button>
-
-              </div>
-
-
             </div>
           ))
           ) :
