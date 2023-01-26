@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
-import SinglePost from './SinglePost';
+import Post from './Post';
 import plant from "../plant.jpeg";
 import { useNavigate } from "react-router-dom";
 
-
+import SinglePost from './SinglePost';
 
 function SinglePostPage({
-  user
+  user,
+  post
 }) {
-  const [currentPost, setCurrentPost] = useState({})
-  const { postId } = useParams();
-  const navigate = useNavigate();
 
   const navigateToProfile = (userId) => {
     navigate(`/users/${userId}`)
   };
 
+  const [currentPost, setCurrentPost] = useState([]);
+  const navigate = useNavigate();
+  const { postId } = useParams();
+  console.log("current post")
   console.log(currentPost)
+
 
   useEffect(() => {
     fetch(`/posts/${postId}`)
       .then((r) => r.json())
       .then((p) => {
         setCurrentPost(p)
+        console.log(p)
       });
   }, [postId])
+
+
 
 
 
@@ -39,7 +45,7 @@ function SinglePostPage({
         }}
       >
 
-        <SinglePost
+        <Post
           post={currentPost}
           className=""
           user={user}
@@ -52,7 +58,11 @@ function SinglePostPage({
           </div>
 
           <div className="flex gap-3">
-            <button className="" onClick={() => navigateToProfile(user?.id)}>{user?.username}</button>
+
+
+            <button className="" onClick={() => navigateToProfile(user?.id)}>{post?.username || post?.user?.username || ""}</button>
+
+
             <span className="">{currentPost?.caption}</span>
           </div>
         </div>

@@ -17,9 +17,9 @@ import { useNavigate } from "react-router-dom";
 
 function Home({
   user,
-
+  posts,
+  setPosts
 }) {
-  const [posts, setPosts] = useState([])
 
   const navigate = useNavigate();
 
@@ -31,24 +31,27 @@ function Home({
   //   navigate(`/users/${userId}`)
   // };
 
-  const navigateToNewPostForm = (newpost) => {
-    navigate(`/posts/${newpost}`)
-  };
+  // const navigateToNewPostForm = (newpost) => {
+  //   navigate(`/posts/${newpost}`)
+  // };
 
-  console.log(posts)
 
   useEffect(() => {
     fetch("/posts")
       .then((r) => r.json())
       .then(posts => {
+        console.log(posts)
+
         if (posts && posts.length > 0) {
           setPosts(posts)
         }
       })
+      .catch(e => {
+        console.log(e)
+      })
   }, [])
 
 
-  console.log(posts)
 
   return (
     <>
@@ -58,11 +61,12 @@ function Home({
           backgroundImage: `url(${plant})`,
           backgroundRepeat: 'repeat-y',
           backgroundSize: 'cover',
-          height: '100vh'
+          // height: '100vh'
+          //set minimum height?
         }}
       >
 
-        <div className="flex flex-row items-center justify-end  h-fit w-fit p-3 rounded-xl">
+        <div className="flex flex-row items-center justify-end h-fit w-fit p-3 rounded-xl">
           <div className="flex items-center justify-end  w-full h-[80px] gap-8">
             <button className="hover:border-2 hover:border-white hover:rounded p-3 text-green-800 opacity-60"
               onClick={() => navigate("/posts/newpost")}>Create a New Post</button>
@@ -82,7 +86,7 @@ function Home({
 
 
 
-        <ul className="flex flex-wrap items-center gap-20 justify-between w-full h-full px-20 py-5 rounded">
+        <ul className="flex flex-wrap-reverse items-center gap-[150px] w-full h-full pl-[110px] py-5 rounded">
 
           {posts?.length > 0 ? (posts?.map((post) => (
             <div className="flex flex-col">

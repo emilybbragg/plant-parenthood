@@ -7,22 +7,38 @@ import plant from "../plant.jpeg";
 
 function ProfilePage({
   user,
-  setUser
+  setUser,
+  // userPosts,
+  // setUserPosts
 }) {
   const [userBio, setUserBio] = useState("")
   const [isEditing, setIsEditing] = useState(false)
 
-  const { userId } = useParams();
+  // const { userId } = useParams();
 
-  useEffect(() => {
-    fetch(`/users/${userId}`)
-      .then((r) => r.json())
-      .then((user) => {
-        setUser(user)
-      });
-  }, [userId])
+  // useEffect(() => {
+  //   fetch(`/users/${userId}`)
+  //     .then((r) => r.json())
+  //     .then((user) => {
+  //       setUser(user)
+  //     });
+  // }, [userId])
 
-  console.log(user)
+
+  const [userPosts, setUserPosts] = useState([])
+
+  // useEffect(() => {
+  //   // if (user) {
+  //   fetch(`/users/${user.id}`)
+  //     .then((r) => r.json())
+  //     .then((userPosts) => {
+  //       setUserPosts(userPosts)
+  //     })
+  //   // }
+  // }, [user])
+
+  console.log("user post")
+  console.log(userPosts)
 
   // function handleUpdateUser(e) {
   //   // e.preventDefault();
@@ -55,7 +71,7 @@ function ProfilePage({
           backgroundImage: `url(${plant})`,
           backgroundRepeat: 'repeat-y',
           backgroundSize: 'cover',
-          height: '100vh'
+          // height: '100vh'
         }}
       >
         <div className="flex items-center justify-between">

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_01_23_202649) do
+ActiveRecord::Schema.define(version: 2023_01_24_203933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,6 @@ ActiveRecord::Schema.define(version: 2023_01_23_202649) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.integer "post_id"
-    t.integer "user_id"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -35,6 +33,8 @@ ActiveRecord::Schema.define(version: 2023_01_23_202649) do
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "category_id"
+    t.index ["category_id"], name: "index_posts_on_category_id"
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -46,5 +46,6 @@ ActiveRecord::Schema.define(version: 2023_01_23_202649) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "posts", "categories"
   add_foreign_key "posts", "users"
 end

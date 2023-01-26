@@ -1,13 +1,21 @@
 Rails.application.routes.draw do
   
   resources :comments
-  resources :categories
+
+  resources :categories, only: [:show, :index] do
+    resources :posts, only: [:index, :create]
+  end
+  # resources :posts, only: [:update, :destroy, :create, :index]
+  # resources :users
+
   resources :posts
-  resources :users
+
+  resources :users, only: [:show] do
+    resources :posts, only: [:index]
+  end
 
   # get "/users/:user_id/posts", to: 'posts#reviewed_posts'
-
-  post "/posts/newpost", to: 'posts#create'
+  # post "/posts/newpost", to: 'posts#create'
 
 
 
