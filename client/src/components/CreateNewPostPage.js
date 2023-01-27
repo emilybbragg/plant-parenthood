@@ -1,42 +1,45 @@
-import React, { useState, useEffect } from "react";
-import plant from "../plant.jpeg";
-import Button from "../styles/Button.js";
+import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import CategoryDropdown from "./CategoryDropdown"
-
+import Button from "../styles/Button.js"
+import plant from "../plant.jpeg"
 
 
 function CreateNewPostPage({
   user,
   posts,
   setPosts,
-  post,
-
 }) {
-
-  const navigate = useNavigate();
-
   const [postImage, setPostImage] = useState("")
   const [postCaption, setPostCaption] = useState("")
   const [errors, setErrors] = useState([])
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState(null)
 
+  const navigate = useNavigate()
 
   const navigateToHome = () => {
     navigate("/posts")
-  };
+  }
+
+  useEffect(() => {
+    fetch("/categories")
+      .then((r) => r.json())
+      .then(categories => {
+        if (categories && categories.length > 0) {
+          setCategories(categories)
+        }
+      })
+  }, [])
 
   function handlePostSubmit(e) {
-    console.log("handle post submit")
     e.preventDefault();
     setErrors([]);
     const postData = {
       image: postImage,
       caption: postCaption,
       user_id: user?.id,
-      // category_id: category?.id
-    };
-    console.log(postData)
-    console.log(JSON.stringify(postData))
+      category_id: selectedCategory
+    }
     fetch("/posts", {
       method: "POST",
       headers: {
@@ -47,12 +50,11 @@ function CreateNewPostPage({
       .then((r) => {
         if (r.ok) {
           r.json().then((newPost) => {
-            console.log(newPost)
             const allPostsWithNew = [...posts, newPost]
             setPosts(allPostsWithNew);
             setPostImage("")
             setPostCaption("")
-            //navigate to single post page
+            setSelectedCategory([])
             navigateToHome()
           })
         }
@@ -64,7 +66,7 @@ function CreateNewPostPage({
 
 
   return (
-    <div className="flex flex-col items-center"
+    <div className="flex flex-col items-center pt-[50px]"
       style={{
         backgroundImage: `url(${plant})`,
         backgroundRepeat: 'repeat-y',
@@ -72,31 +74,57 @@ function CreateNewPostPage({
         height: '100vh'
       }}
     >
-      <div className="flex flex-col p-3 h-full w-[500px] rounded-b border-2 border-white">
+      <div className="flex flex-col items-center justify-center h-[600px] w-[500px] rounded-b border-2 border-white bg-white">
+        <form className="flex flex-col items-center space-y-4 w-fit h-fit gap-10" onSubmit={handlePostSubmit}>
+          <span className="flex items-center justify-center h-[300px] w-[450px] border-2 rounded-sm border-black">Add Photo</span>
+          <div className="flex items-center justify-center h-[200px] w-[450px] bg-green-800 opacity-40 rounded items-center">
+            <div className="flex items-center">
+              <input
+                type="text"
+                placeholder="Add your caption here!"
+                className="flex rounded p-1 h-[150px] w-[200px] overflow-auto"
+                value={postCaption}
+                onChange={(e) => setPostCaption(e.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-5">
+              <select
+                name="categories"
+                className="flex items-center justify-center w-[150px] h-[45px] p-1 rounded text-green-800 hover:border-2 hover:border-green-800 bg-white"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                {categories?.map((category) => (
+                  <option
+                    value={category?.id}
+                    name={category?.name}
+                  >
+                    {category?.name}
+                  </option>
+                ))}
+              </select>
+              <Button
+                type="submit"
+              >
+                Post
+              </Button>
 
-        <form className="w-fit h-fit" onSubmit={handlePostSubmit} >
-          <span className="items-center flex border-2 rounded-sm h-[150px] w-full border-black">Upload Image Here</span>
-          <span className="font-serif font-semibold text-sm items-center flex py-3">Post caption</span>
-          <input
-            type="text"
-            id="caption"
-            value={postCaption}
-            onChange={(e) => setPostCaption(e.target.value)}
-            className="border-2 border-black flex flex-col"
-          />
-          <CategoryDropdown className="font-serif font-semibold text-sm items-center flex py-3" />
-          <Button type="submit" className="items-center justify-center flex">Post</Button>
-          <div>
-            {errors?.map((err) => (
-              <ul key={err} className="">Error: {err}</ul>
-            ))}
+            </div>
+            <div>
+              {errors?.map((err) => (
+                <ul key={err}
+                  className=""
+                >
+                  Error: {err}
+                </ul>
+              ))}
+            </div>
+
           </div>
+
         </form>
       </div>
-
-    </div >
-
-
+    </div>
   )
 }
 

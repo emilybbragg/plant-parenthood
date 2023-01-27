@@ -6,10 +6,10 @@ class CategoriesController < ApplicationController
   end
 
 
-  # def show
-  #   categories = Categories.all.order(name: :asc)
-  #   render json: categories
-  # end
+  def show
+    category = Category.find_by(id: params[:category_id])
+    render json: user
+  end
 
 
 end
