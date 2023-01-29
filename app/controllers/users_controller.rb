@@ -23,6 +23,7 @@ class UsersController < ApplicationController
 
   def user_params
     params.permit(:username, :password, :password_confirmation, :name)
+    #:bio
   end
 
   def update_params

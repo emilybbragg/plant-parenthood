@@ -1,8 +1,10 @@
 class Post < ApplicationRecord
 
   belongs_to :user
-  # , optional: true
-  belongs_to :category, optional: true
+  belongs_to :category
+  
   has_many :comments
+  # optional: true
+  has_many :users, through: :comments
 
 end

@@ -39,6 +39,8 @@ function Post({
               onClick={() => navigateToProfile(user?.id)}
             >
               {post?.username || post?.user?.username || ""}
+              {/* {post?.category || ""} */}
+
             </button>
           </div>
         </div>

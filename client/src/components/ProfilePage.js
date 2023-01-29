@@ -6,8 +6,6 @@ import Button from "../styles/Button.js"
 import { useNavigate } from "react-router-dom"
 
 
-
-
 function ProfilePage({
   user,
   setUser
@@ -15,7 +13,7 @@ function ProfilePage({
 }) {
   const [isEditing, setIsEditing] = useState(false)
   const [bio, setBio] = useState("")
-  const [userBios, setUserBios] = useState([])
+  // const [userBios, setUserBios] = useState([])
 
   const { userId } = useParams()
 
@@ -23,6 +21,7 @@ function ProfilePage({
 
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
+  const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
     fetch("/categories")
@@ -60,6 +59,22 @@ function ProfilePage({
       })
       .then(() => setIsEditing(false));
   }
+
+
+  useEffect(() => {
+    setFilteredPosts(user?.posts?.reverse())
+  }, [user])
+
+  useEffect(() => {
+    if (selectedCategory === "default") {
+      setFilteredPosts(user?.posts?.reverse())
+    }
+    else {
+      const filteredPosts = user?.posts?.filter((post) => selectedCategory == post?.category_id)
+      setFilteredPosts(filteredPosts.reverse())
+    }
+  }, [selectedCategory])
+
 
 
   // function handleUpdateUser(updatedUser) {
@@ -123,54 +138,59 @@ function ProfilePage({
           </div>
         </div>
 
-        <div>
-          <div className="flex items-center justify-center w-full h-[80px] gap-8 pl-[65px] pb-[28px]">
-            <button className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
-              onClick={() => navigate("/posts/newpost")}
-            >
-              Create a New Post
-            </button>
-            <select
-              name="categories"
-              className="flex items-center justify-center w-[175px] h-[50px] p-3 rounded text-green-800 opacity-60 hover:border-2 hover:border-green-800"
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-            >
-              <>
-                <option value="default" disabled>Filter By Category</option>
-                {categories?.map((category) => (
-                  <option
-                    value={category?.id}
-                    name={category?.name}
-                  >
-                    {category?.name}
-                  </option>
-                ))}
-              </>
-            </select>
-          </div>
 
-          <div className="flex justify-between p-10 gap-[10rem] h-fit w-fit">
-            <ul className="flex flex-wrap gap-[4rem] rounded pl-[80px]">
-              {user?.posts?.length > 0 ? (user?.posts?.map((post) => (
-                <>
-                  <Post
-                    key={post.id}
-                    id={post.id}
-                    post={post}
-                    user={user}
-                  />
-                </>
-              ))
-              ) :
-                <span className="flex pt-[200px] text-3xl text-green-800 opacity-60">
-                  No Posts Yet! Add one to get started.
-                </span>
-              }
-            </ul>
-          </div>
+
+
+
+        <div className="flex w-fit h-[80px] gap-8 absolute pl-[750px]">
+          <button className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
+            onClick={() => navigate("/posts/newpost")}
+          >
+            Create a New Post
+          </button>
+          <select
+            name="categories"
+            className="flex items-center justify-center w-[175px] h-[50px] p-3 rounded text-green-800 opacity-60 hover:border-2 hover:border-green-800"
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+          >
+            <>
+              <option value="default">All Posts</option>
+              {categories?.map((category) => (
+                <option
+                  value={category?.id}
+                  name={category?.name}
+                >
+                  {category?.name}
+                </option>
+              ))}
+            </>
+          </select>
         </div>
+
+        <div className="flex justify-between p-10 gap-[10rem] w-fit overflow-y-auto h-[800px]">
+          <ul className="flex flex-wrap gap-[4rem] rounded pl-[80px]">
+            {filteredPosts?.length > 0 ? (filteredPosts?.map((post) => (
+              <>
+                <Post
+                  key={post.id}
+                  id={post.id}
+                  post={post}
+                  user={user}
+                />
+              </>
+            ))
+            ) :
+              <span className="flex pt-[200px] text-3xl text-green-800 opacity-60">
+                No Posts Yet! Add one to get started.
+              </span>
+            }
+          </ul>
+        </div>
+
       </div>
+
+
     </>
   )
 }

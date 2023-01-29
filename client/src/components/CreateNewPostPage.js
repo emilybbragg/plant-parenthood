@@ -40,6 +40,7 @@ function CreateNewPostPage({
       user_id: user?.id,
       category_id: selectedCategory
     }
+    console.log(JSON.stringify(postData))
     fetch("/posts", {
       method: "POST",
       headers: {
@@ -75,22 +76,22 @@ function CreateNewPostPage({
       }}
     >
       <div className="flex flex-col items-center justify-center h-[600px] w-[500px] rounded-b border-2 border-white bg-white">
-        <form className="flex flex-col items-center space-y-4 w-fit h-fit gap-10" onSubmit={handlePostSubmit}>
-          <span className="flex items-center justify-center h-[300px] w-[450px] border-2 rounded-sm border-black">Add Photo</span>
-          <div className="flex items-center justify-center h-[200px] w-[450px] bg-green-800 opacity-40 rounded items-center">
-            <div className="flex items-center">
-              <input
-                type="text"
+        <form className="flex flex-col items-center justify-between w-full px-4 h-fit gap-10" onSubmit={handlePostSubmit}>
+          <span className="flex items-center justify-center h-[300px] w-full px-4 border-2 rounded-sm border-black">Add Photo</span>
+          <div className="grid grid-cols-6 gap-1 h-[200px] w-full bg-green-800 opacity-40 rounded">
+            <div className="flex items-center justify-center pt-8 pl-8 col-span-3">
+              <textarea
                 placeholder="Add your caption here!"
-                className="flex rounded p-1 h-[150px] w-[200px] overflow-auto"
+                className="rounded p-1 overflow-auto w-full"
+                rows="4"
                 value={postCaption}
                 onChange={(e) => setPostCaption(e.target.value)}
               />
             </div>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3 items-center justify-center pt-8 col-span-3">
               <select
                 name="categories"
-                className="flex items-center justify-center w-[150px] h-[45px] p-1 rounded text-green-800 hover:border-2 hover:border-green-800 bg-white"
+                className="flex items-center justify-center p-1 rounded text-green-800 hover:border-2 hover:border-green-800 bg-white"
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >

@@ -1,8 +1,19 @@
 class CommentsController < ApplicationController
 
+  # def index
+  #   comments = Comment.all
+  #   render json: comments
+  # end
+
   def index
-    comments = Comment.all
-    render json: comments
+    if params[:post_id]
+      post = Post.find(params[:post_id])
+      comments = post.comments
+      render json: comments
+    else 
+      comments = Comment.all
+      render json: comments
+    end
   end
 
   def create

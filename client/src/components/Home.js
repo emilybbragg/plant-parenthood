@@ -11,21 +11,11 @@ function Home({
   setPosts,
   post
 }) {
-
   const navigate = useNavigate()
-
-  useEffect(() => {
-    fetch("/posts")
-      .then((r) => r.json())
-      .then(posts => {
-        if (posts && posts.length > 0) {
-          setPosts(posts)
-        }
-      })
-  }, [])
 
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
+  const [filteredPosts, setFilteredPosts] = useState([])
 
   useEffect(() => {
     fetch("/categories")
@@ -45,16 +35,21 @@ function Home({
           setPosts(posts)
         }
       })
-    if (selectedCategory) {
-      setPosts(filteredPosts)
-    }
   }, [])
-  // const filteredCategory = categories?.filter((category) => selectedCategory == category?.id)
-  // console.log(filteredCategory)
-  const filteredPosts = posts?.filter((post) => selectedCategory == post?.category?.id)
-  console.log(filteredPosts)
 
+  useEffect(() => {
+    setFilteredPosts(posts?.reverse())
+  }, [posts])
 
+  useEffect(() => {
+    if (selectedCategory === "default") {
+      setFilteredPosts(posts?.reverse())
+    }
+    else {
+      const filteredPosts = posts?.filter((post) => selectedCategory == post?.category?.id)
+      setFilteredPosts(filteredPosts.reverse())
+    }
+  }, [selectedCategory])
 
 
   return (
@@ -67,8 +62,8 @@ function Home({
           // height: '100vh' - set minimum height?
         }}
       >
-        <div className="flex flex-row items-center justify-end h-fit w-fit p-3 rounded-xl">
-          <div className="flex items-center justify-end w-full h-[80px] gap-8">
+        <div className="flex flex-row items-center h-fit w-fit p-3 rounded-xl">
+          <div className="flex items-center  w-full h-[80px] gap-8">
             <button className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
               onClick={() => navigate("/posts/newpost")}
             >
@@ -82,7 +77,9 @@ function Home({
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <>
-                <option value="default" disabled>Filter By Category</option>
+                {/* <option value="default" disabled>Filter By Category</option> */}
+                <option value="default">All Posts</option>
+
                 {categories?.map((category) => (
                   <option
                     value={category?.id}
@@ -97,10 +94,8 @@ function Home({
         </div>
 
 
-        <ul className="flex flex-wrap-reverse items-center w-full h-full gap-[150px] pl-[110px] py-5 rounded">
-
-
-          {posts?.length > 0 ? (posts?.map((post) => (
+        <ul className="flex flex-wrap items-center w-full h-full gap-[150px] pl-[110px] py-5 rounded">
+          {filteredPosts?.length > 0 ? (filteredPosts?.map((post) => (
             <div className="flex flex-col">
               <Post
                 key={post.id}
@@ -111,7 +106,6 @@ function Home({
             </div>
           ))
           ) :
-
             <div className="flex items-center justify-center pl-[400px] pb-[200px] text-3xl text-green-800 opacity-60">
               No Posts Yet! Add one to get started.
             </div>

@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
-import Post from './Post'
+import SinglePost from './SinglePost'
 import plant from "../plant.jpeg"
 
 
 function SinglePostPage({
   user,
   post,
-  category
+  posts,
+  setPosts,
+  category,
+  setUser
 }) {
 
-  const [currentPost, setCurrentPost] = useState([])
+  const [currentPost, setCurrentPost] = useState({})
   const navigate = useNavigate()
   const { postId } = useParams()
+  const [userPosts, setUserPosts] = useState([])
+
+  const navigateToHome = () => {
+    navigate("/posts")
+  }
 
   const navigateToProfile = (userId) => {
     navigate(`/users/${userId}`)
@@ -27,38 +35,47 @@ function SinglePostPage({
       })
   }, [postId])
 
+  function handlePostDeleteClick(post) {
+    fetch(`/posts/${postId}`, {
+      method: "DELETE",
+    })
+      .then((r) => {
+        if (r.ok) {
+          deletePost(post)
+        }
+        navigateToHome()
+      })
+  }
+
+  function deletePost(deletedPost) {
+    const updatedPosts = userPosts.filter((post) => post.id !== deletedPost.id)
+    setUserPosts(updatedPosts)
+  }
+
   return (
     <>
-      <div className="flex flex-col items-center"
+      <div className="flex flex-col items-center py-[50px]"
         style={{
           backgroundImage: `url(${plant})`,
           backgroundRepeat: 'repeat-y',
-          backgroundSize: 'cover'
+          backgroundSize: 'cover',
+          height: '100vh'
         }}
       >
-        <Post
+        <SinglePost
           className=""
+          key={currentPost.id}
+          id={currentPost.id}
           post={currentPost}
           user={user}
-          category={category}
+          setUser={setUser}
+          handlePostDeleteClick={handlePostDeleteClick}
+
         />
-        <div className="flex flex-col p-3 h-full w-[500px] border-2 border-white rounded-b">
-          <div className="flex">
-            <button>Like Post Button -- </button>
-            <span># Likes</span>
-          </div>
-          <div className="flex gap-3">
-            <button
-              className=""
-              onClick={() => navigateToProfile(user?.id)}
-            >
-              {post?.username || post?.user?.username || ""}
-            </button>
-            <span className="">{currentPost?.caption}</span>
-          </div>
-        </div>
-        <button className="flex items-center justify-center">View Comments</button>
+
+
       </div>
+
     </>
   )
 }

@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
-    # resources :categories
   resources :comments
   resources :posts
   resources :users
+  resources :categories
   
 
 
@@ -14,8 +14,8 @@ Rails.application.routes.draw do
     resources :posts
   end
 
-  resources :users, only: [:show, :patch] do
-    resources :posts, only: [:index]
+  resources :users, only: [:show, :update] do
+    resources :posts, only: [:index, :update, :show, :destroy]
   end
 
   post "/login", to: "sessions#create"
