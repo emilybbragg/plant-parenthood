@@ -5,11 +5,9 @@ class CategoriesController < ApplicationController
     render json: categories
   end
 
-
   def show
-    category = Category.find_by(id: params[:category_id])
-    render json: user
+    category = Category.find(params[:id])
+    render json: category
   end
-
 
 end

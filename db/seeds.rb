@@ -9,7 +9,6 @@
 user1 = User.create(username: 'emilyb', password: 'plantlover', name: 'Emily Bragg')
 user2 = User.create(username: 'emilyc', password: 'plantlovr')
 
-post1 = Post.create(caption: 'Jan 26', user_id: user1.id, image: '1', category_id: category1.id)
 
 category1 = Category.create(name: 'Houseplant')
 category2 = Category.create(name: 'Succulent')
@@ -17,6 +16,8 @@ category3 = Category.create(name: 'Herb')
 category4 = Category.create(name: 'Flower')
 category5 = Category.create(name: 'Tropical')
 
+
+# comment1 = Comment.create(user_id: user_id, description: "working comment", post_id: 3)
 
 
 puts "✍🏻🗒️ DB seeded!"

@@ -1,12 +1,15 @@
-import React from "react"
+import React, { useContext } from "react"
 import { useNavigate } from "react-router-dom"
+import { UserContext } from "../UserContext"
 
 
 function Post({
-  post,
-  user,
+
+  post
+
 }) {
 
+  // const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   const navigateToPost = (postId) => {
@@ -14,6 +17,7 @@ function Post({
   }
 
   const navigateToProfile = (userId) => {
+    // console.log(userId)
     navigate(`/users/${userId}`)
   }
 
@@ -21,26 +25,12 @@ function Post({
     <>
       <ul className="flex">
         <div className="flex flex-col items-center justify-between h-[300px] w-[300px]
-        bg-green-800 border-4 border-white rounded-t text-black">
+              bg-green-800 border-4 border-white rounded-t text-black">
           <div>{post?.image}</div>
-          {/* <span>{post?.caption}</span>
-          <span>{post?.username || post?.user?.username || ""}</span>
-          <span>{post?.category?.name || ""}</span> */}
-
           <div className="flex items-center justify-between h-[40px] w-[300px] gap-3 bg-white p-3 rounded-b">
-            <button
-              className=""
-              onClick={() => navigateToPost(post?.id)}
-            >
-              View Post
-            </button>
-            <button
-              className=""
-              onClick={() => navigateToProfile(user?.id)}
-            >
+            <button onClick={() => navigateToPost(post?.id)}>View Post</button>
+            <button onClick={() => navigateToProfile(post?.user_id)}>
               {post?.username || post?.user?.username || ""}
-              {/* {post?.category || ""} */}
-
             </button>
           </div>
         </div>

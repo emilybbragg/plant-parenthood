@@ -1,22 +1,37 @@
 Rails.application.routes.draw do
+  resources :likes
   resources :comments
   resources :posts
   resources :users
   resources :categories
-  
 
+  resources :users do
+    resources :comments
+  end
 
-  # resources :categories, only: [:show, :index] do
-  #   resources :posts, only: [:index, :create, :show]
-  # end
+  resources :users do
+    resources :posts
+  end
+
+  resources :posts do
+    resources :comments, only: [:show, :index, :create]
+  end
 
   resources :categories do
     resources :posts
   end
 
-  resources :users, only: [:show, :update] do
-    resources :posts, only: [:index, :update, :show, :destroy]
-  end
+  # resources :users, only: [:show, :update] do
+  #   resources :comments, only: [:index, :show, :destroy]
+  # end
+  
+  # resources :users, only: [:show, :update] do
+  #   resources :posts, only: [:index, :update, :show, :destroy]
+  # end
+
+  # resources :posts, only: [:show, :update] do
+  #   resources :comments, only: [:index, :show, :destroy]
+  # end
 
   post "/login", to: "sessions#create"
   get "/me", to: "users#show"
@@ -25,10 +40,5 @@ Rails.application.routes.draw do
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!
   get "*path", to: "fallback#index", constraints: ->(req) { !req.xhr? && req.format.html? }
+  
 end
-
-
-  # resources :posts, only: [:update, :destroy, :create, :index]
-  # resources :users
-  # get "/users/:user_id/posts", to: 'posts#reviewed_posts'
-  # post "/posts/newpost", to: 'posts#create'

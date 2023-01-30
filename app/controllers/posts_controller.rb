@@ -1,10 +1,5 @@
 class PostsController < ApplicationController
 
-# def index
-#   posts = Post.all
-#   render json: posts
-# end
-
   def index
     if params[:user_id]
       user = User.find(params[:user_id])
@@ -16,9 +11,8 @@ class PostsController < ApplicationController
     end
   end
 
-  # def user_posts
-  #   user = User.find_by(id: session[:user_id])
-  #   posts = user.posts
+  # def index
+  #   posts = Post.all
   #   render json: posts
   # end
 
@@ -46,11 +40,6 @@ class PostsController < ApplicationController
     post.destroy
     head :no_content
   end
-
-  # def create
-  #   post = Post.create(post_params)
-  #   render json: post, status: :created
-  # end
 
   private
 

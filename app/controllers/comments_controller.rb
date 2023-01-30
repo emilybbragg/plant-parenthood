@@ -1,10 +1,5 @@
 class CommentsController < ApplicationController
 
-  # def index
-  #   comments = Comment.all
-  #   render json: comments
-  # end
-
   def index
     if params[:post_id]
       post = Post.find(params[:post_id])
@@ -16,9 +11,27 @@ class CommentsController < ApplicationController
     end
   end
 
+  # def show
+  #   comment = Comment.find(params[:id])
+  #   render json: comment
+  # end
+
+  # def create
+  #   comment = @current_user.comments.create!(comment_params)
+  #   render json: comment, status: :created
+  # end
+
   def create
-    post = @current_user?.comments?.create!(comment_params)
+    comment = Comment.create!(comment_params)
     render json: comment, status: :created
+  end
+
+
+  def destroy
+    # comment = @current_user.comments.find(params[:id])
+    comment = Comment.find(params[:id])
+    comment.destroy
+    head :no_content
   end
 
   private
@@ -26,6 +39,5 @@ class CommentsController < ApplicationController
   def comment_params
     params.permit(:description, :user_id, :post_id)
   end
-
 
 end

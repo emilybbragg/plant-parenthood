@@ -1,33 +1,20 @@
-import React, { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
-import Post from "./Post"
+import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 
 
 function EditPost({
-  user,
-  posts,
-  setPosts,
-  post
-}) {
 
-  // const { caption } = post
+  handleUpdatePost,
+  setIsEditing
+
+}) {
+  const { postId } = useParams()
+
   const [caption, setCaption] = useState("")
   const [updatedCaption, setUpdatedCaption] = useState("")
-  const { postId } = useParams()
-  const [isEditing, setIsEditing] = useState(false)
-  const [userPosts, setUserPosts] = useState([])
-
-
-  function handleCaptionChange(e) {
-    setUpdatedCaption(e.target.value)
-  }
 
   function handlePostUpdateSubmit(e) {
     e.preventDefault()
-
-    console.log(JSON.stringify({ caption: updatedCaption }))
-
     fetch(`/posts/${postId}`, {
       method: "PATCH",
       headers: {
@@ -38,23 +25,15 @@ function EditPost({
       }),
     })
       .then((r) => r.json())
-      .then((caption) => {
-        handleUpdatePost(caption)
+      .then((updatedPost) => {
+        handleUpdatePost(updatedPost)
       })
       .then(() => setIsEditing(false));
   }
 
-  function handleUpdatePost(updatedPost) {
-    const editedPosts = userPosts?.map((post) => {
-      if (post?.id === updatedPost?.id) {
-        return updatedPost
-      } else {
-        return post
-      }
-    })
-    setUserPosts(editedPosts)
+  function handleCaptionChange(e) {
+    setUpdatedCaption(e.target.value)
   }
-
 
   return (
     <form onSubmit={handlePostUpdateSubmit}>

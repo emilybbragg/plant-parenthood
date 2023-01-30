@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import FormField from "../styles/FormField.js"
 import Input from "../styles/Input.js"
 import Button from "../styles/Button.js"
+import { UserContext } from "../UserContext"
 
-function LoginForm({ onLogin }) {
+
+function LoginForm({
+
+}) {
+  const { user, setUser } = useContext(UserContext)
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -22,11 +27,11 @@ function LoginForm({ onLogin }) {
     }).then((r) => {
       setIsLoading(false);
       if (r.ok) {
-        r.json().then((user) => onLogin(user));
+        r.json().then((user) => setUser(user))
       } else {
         r.json().then((err) => setErrors(err.errors))
       }
-    });
+    })
   }
 
   return (
@@ -59,7 +64,7 @@ function LoginForm({ onLogin }) {
       </FormField>
       <FormField>
         <div className="flex flex-col items-center justify-center text-red-700">
-          {errors.map((err) => (
+          {errors?.map((err) => (
             <ul key={err}
               className=""
             >

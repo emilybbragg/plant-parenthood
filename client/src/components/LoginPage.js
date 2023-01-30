@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from "react-router-dom"
 import SignupPage from "./SignupPage"
 import LoginForm from "./LoginForm"
 import styled from "styled-components"
 import Button from "../styles/Button.js"
 import plants from "../plants.jpeg"
+import { UserContext } from "../UserContext"
 
-function LoginPage({ onLogin, user }) {
 
+function LoginPage({
+
+
+}) {
+
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
-  const [showLogin, setShowLogin] = useState(true);
+
+  const [showLogin, setShowLogin] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -40,7 +47,10 @@ function LoginPage({ onLogin, user }) {
           <br />
           {showLogin ? (
             <>
-              <LoginForm onLogin={onLogin} />
+              <LoginForm
+              // onLogin={onLogin}
+              // onLogin={setUser}
+              />
               <Divider />
               <div className="flex flex-col items-center justify-center gap-3">
                 <span>Don't have an account?</span>
@@ -54,7 +64,7 @@ function LoginPage({ onLogin, user }) {
             </>
           ) : (
             <>
-              <SignupPage onLogin={onLogin} />
+              <SignupPage />
               <Divider />
               <div className="flex flex-col items-center justify-center gap-3">
                 <span>Already have an account?</span>

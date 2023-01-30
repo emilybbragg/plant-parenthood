@@ -1,9 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import FormField from "../styles/FormField"
 import Button from "../styles/Button.js"
 import Input from "../styles/Input.js"
+import { UserContext } from "../UserContext"
 
-function SignupPage({ onLogin }) {
+function SignupPage({
+
+  bio
+
+}) {
+
+  const { user, setUser } = useContext(UserContext)
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -13,9 +20,9 @@ function SignupPage({ onLogin }) {
   const [isLoading, setIsLoading] = useState(false)
 
   function handleSubmit(e) {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrors([]);
+    e.preventDefault()
+    setIsLoading(true)
+    setErrors([])
     fetch("/signup", {
       method: "POST",
       headers: {
@@ -25,16 +32,17 @@ function SignupPage({ onLogin }) {
         username,
         password,
         password_confirmation: passwordConfirmation,
-        name
+        name,
+        bio
       }),
     }).then((r) => {
       setIsLoading(false);
       if (r.ok) {
-        r.json().then((user) => onLogin(user));
+        r.json().then((user) => setUser(user));
       } else {
         r.json().then((err) => setErrors(err.errors))
       }
-    });
+    })
   }
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 
 import Post from "./Post"
@@ -6,10 +6,10 @@ import plant from "../plant.jpeg"
 
 
 function Home({
-  user,
+
   posts,
-  setPosts,
-  post
+  setPosts
+
 }) {
   const navigate = useNavigate()
 
@@ -51,7 +51,6 @@ function Home({
     }
   }, [selectedCategory])
 
-
   return (
     <>
       <div className="flex flex-col items-center"
@@ -69,7 +68,6 @@ function Home({
             >
               Create a New Post
             </button>
-
             <select
               name="categories"
               className="flex items-center justify-center w-[175px] h-[50px] p-3 rounded text-green-800 opacity-60 hover:border-2 hover:border-green-800"
@@ -77,9 +75,7 @@ function Home({
               onChange={(e) => setSelectedCategory(e.target.value)}
             >
               <>
-                {/* <option value="default" disabled>Filter By Category</option> */}
                 <option value="default">All Posts</option>
-
                 {categories?.map((category) => (
                   <option
                     value={category?.id}
@@ -92,8 +88,6 @@ function Home({
             </select>
           </div>
         </div>
-
-
         <ul className="flex flex-wrap items-center w-full h-full gap-[150px] pl-[110px] py-5 rounded">
           {filteredPosts?.length > 0 ? (filteredPosts?.map((post) => (
             <div className="flex flex-col">
@@ -101,7 +95,6 @@ function Home({
                 key={post.id}
                 id={post.id}
                 post={post}
-                user={user}
               />
             </div>
           ))

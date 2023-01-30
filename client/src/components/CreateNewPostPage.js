@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../styles/Button.js"
 import plant from "../plant.jpeg"
+import { UserContext } from "../UserContext"
 
 
 function CreateNewPostPage({
-  user,
+
   posts,
   setPosts,
+
 }) {
+
+  const { user, setUser } = useContext(UserContext)
+  const navigate = useNavigate()
+
   const [postImage, setPostImage] = useState("")
   const [postCaption, setPostCaption] = useState("")
   const [errors, setErrors] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
-
-  const navigate = useNavigate()
 
   const navigateToHome = () => {
     navigate("/posts")
@@ -32,15 +36,14 @@ function CreateNewPostPage({
   }, [])
 
   function handlePostSubmit(e) {
-    e.preventDefault();
-    setErrors([]);
+    e.preventDefault()
+    setErrors([])
     const postData = {
       image: postImage,
       caption: postCaption,
       user_id: user?.id,
       category_id: selectedCategory
     }
-    console.log(JSON.stringify(postData))
     fetch("/posts", {
       method: "POST",
       headers: {
@@ -51,6 +54,7 @@ function CreateNewPostPage({
       .then((r) => {
         if (r.ok) {
           r.json().then((newPost) => {
+            // console.log(newPost)
             const allPostsWithNew = [...posts, newPost]
             setPosts(allPostsWithNew);
             setPostImage("")
@@ -64,7 +68,6 @@ function CreateNewPostPage({
         }
       })
   }
-
 
   return (
     <div className="flex flex-col items-center pt-[50px]"
@@ -95,6 +98,7 @@ function CreateNewPostPage({
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
+                <option value="default">Select a Category</option>
                 {categories?.map((category) => (
                   <option
                     value={category?.id}
@@ -104,12 +108,7 @@ function CreateNewPostPage({
                   </option>
                 ))}
               </select>
-              <Button
-                type="submit"
-              >
-                Post
-              </Button>
-
+              <Button type="submit">Post</Button>
             </div>
             <div>
               {errors?.map((err) => (
@@ -120,9 +119,7 @@ function CreateNewPostPage({
                 </ul>
               ))}
             </div>
-
           </div>
-
         </form>
       </div>
     </div>

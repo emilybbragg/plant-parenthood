@@ -1,16 +1,24 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import { Link, useNavigate } from 'react-router-dom'
+import { UserContext } from "../UserContext"
 
 
-function NavBar({ user, setUser }) {
+function NavBar({ }) {
 
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (!user) {
+    if (user == null) {
       navigate("/")
     }
   }, [])
+
+  useEffect(() => {
+    console.groupCollapsed("User from NavBar")
+    console.log(user)
+    console.groupEnd()
+  }, [user])
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
@@ -36,7 +44,9 @@ function NavBar({ user, setUser }) {
             Home
           </Link>
           <Link
-            to="/users/userId"
+            to={`/users/${user?.id}`}
+            // to="/users/userId"
+
             className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 !border-white"
           >
             My Profile

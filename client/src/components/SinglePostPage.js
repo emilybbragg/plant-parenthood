@@ -1,31 +1,40 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { UserContext } from "../UserContext"
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import SinglePost from './SinglePost'
 import plant from "../plant.jpeg"
+import CommentList from "./CommentList"
 
 
 function SinglePostPage({
-  user,
-  post,
-  posts,
+
   setPosts,
-  category,
-  setUser
+  post
+
 }) {
 
-  const [currentPost, setCurrentPost] = useState({})
+  const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
   const { postId } = useParams()
-  const [userPosts, setUserPosts] = useState([])
+
+  const [currentPost, setCurrentPost] = useState({})
+  const [isEditing, setIsEditing] = useState(false)
+  const [comments, setComments] = useState([])
+  const [isAddingComment, setIsAddingComment] = useState(false)
+  const [isShowingAllComments, setIsShowingAllComments] = useState(false)
 
   const navigateToHome = () => {
     navigate("/posts")
   }
 
-  const navigateToProfile = (userId) => {
-    navigate(`/users/${userId}`)
-  }
+  useEffect(() => {
+    fetch(`/posts/${postId}/comments`)
+      .then((r) => r.json())
+      .then((comments) => {
+        setComments(comments)
+      })
+  }, [postId])
 
   useEffect(() => {
     fetch(`/posts/${postId}`)
@@ -47,10 +56,17 @@ function SinglePostPage({
       })
   }
 
-  function deletePost(deletedPost) {
-    const updatedPosts = userPosts.filter((post) => post.id !== deletedPost.id)
-    setUserPosts(updatedPosts)
+  function handleUpdatePost(updatedPost) {
+    setCurrentPost(updatedPost)
+    setIsEditing(false)
   }
+
+  function deletePost(deletedPost) {
+    const updatedPosts = user?.posts.filter((post) => post.id !== deletedPost.id)
+    setPosts(updatedPosts)
+  }
+
+
 
   return (
     <>
@@ -59,7 +75,7 @@ function SinglePostPage({
           backgroundImage: `url(${plant})`,
           backgroundRepeat: 'repeat-y',
           backgroundSize: 'cover',
-          height: '100vh'
+          // height: '100vh'
         }}
       >
         <SinglePost
@@ -67,15 +83,30 @@ function SinglePostPage({
           key={currentPost.id}
           id={currentPost.id}
           post={currentPost}
-          user={user}
-          setUser={setUser}
+          handleUpdatePost={handleUpdatePost}
           handlePostDeleteClick={handlePostDeleteClick}
-
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          comments={comments}
+          setComments={setComments}
+          setIsAddingComment={setIsAddingComment}
+          setIsShowingAllComments={setIsShowingAllComments}
+          isShowingAllComments={isShowingAllComments}
         />
 
-
+        {/* {isShowingAllComments ? */}
+        <CommentList
+          // key={currentPost.id}
+          // id={currentPost.id}
+          post={currentPost}
+          postId={postId}
+          comments={comments}
+          setComments={setComments}
+          isAddingComment={isAddingComment}
+          setIsAddingComment={setIsAddingComment}
+        />
+        {/* : ""} */}
       </div>
-
     </>
   )
 }
