@@ -32,3 +32,6 @@
 
 # Ignore node_modules
 node_modules/
+
+### ignore local env
+/config/local_env.yml

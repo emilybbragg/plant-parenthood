@@ -2,7 +2,10 @@ import { useState, useEffect, React, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import EditPost from "./EditPost"
 import { UserContext } from "../UserContext"
-
+import CommentForm from "./CommentForm"
+import Icon from "./Icons"
+import { handleClientScriptLoad } from "next/script"
+import PostLikes from "./PostLikes"
 
 function SinglePost({
 
@@ -16,7 +19,10 @@ function SinglePost({
   setIsAddingComment,
   postId,
   setIsShowingAllComments,
-  isShowingAllComments
+  isShowingAllComments,
+  handleLikeClick,
+  postLikes,
+  setPostLikes
 
 }) {
 
@@ -24,15 +30,14 @@ function SinglePost({
   const navigate = useNavigate()
 
   const navigateToProfile = (userId) => {
-    // console.group("NAV TO PROFILE")
-    // console.log(userId)
-    // console.groupEnd()
     navigate(`/users/${userId}`)
   }
 
+
+  console.log(post)
   return (
     <>
-      <div>
+      <div className="flex flex-col">
         <ul className="flex flex-col">
           <div className="flex flex-col items-center justify-between h-[500px] w-[500px] bg-green-800 text-black border-4 border-white rounded-t">
             <div>{post?.image}</div>
@@ -40,15 +45,26 @@ function SinglePost({
           <div className={`flex flex-col p-3 h-fit w-[500px] gap-2 bg-white border-2 border-white text-black
             ${isEditing && post.user?.id == user.id ? "rounded-none" : post.user?.id == user.id ? "rounded-none" : "rounded-b"}
           `}>
-            <div className="flex row items-start gap-2">
-              <button>Heart Icon</button>
-              <span># Likes</span>
-            </div>
 
             <div className="flex row items-start gap-2">
-              <button onClick={() => setIsAddingComment(true)}>
-                Comment Icon
-              </button>
+              <div className="flex items-center pt-[4px] gap-2">
+                <PostLikes
+                  postLikes={postLikes}
+                  setPostLikes={setPostLikes}
+                  post={post}
+                  postId={postId}
+                />
+              </div>
+            </div>
+
+            <div className="flex items-start gap-2">
+              <div className="flex items-center pt-[4px]">
+                <button onClick={() => setIsAddingComment(true)}>
+                  <Icon
+                    icon="comment"
+                    className="h-4 w-4" />
+                </button>
+              </div>
               <button onClick={() => setIsShowingAllComments(true)}>
                 View all comments
               </button>
@@ -58,6 +74,7 @@ function SinglePost({
               <button className="flex items-start font-bold" onClick={() => navigateToProfile(post?.user?.id)}>
                 {post?.username || post?.user?.username || ""}
               </button>
+
               {isEditing && post.user?.id == user.id ?
                 <EditPost
                   id={post.id}
@@ -74,6 +91,7 @@ function SinglePost({
               <span>{post?.category?.name || ""}</span>
             </div>
           </div>
+
         </ul>
 
         {!isEditing && post?.user?.id == user.id ? (
@@ -91,6 +109,10 @@ function SinglePost({
           </>
         ) : null}
       </div>
+
+
+
+      {/* <CommentForm /> */}
     </>
   )
 }

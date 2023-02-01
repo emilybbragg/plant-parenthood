@@ -12,6 +12,7 @@ function CommentList({
   setComments,
   isAddingComment,
   setIsAddingComment,
+  setIsShowingAllComments,
   postId
 
 }) {
@@ -27,7 +28,6 @@ function CommentList({
       user_id: user.id,
       post_id: post.id,
     }
-    // console.log(commentData)
     fetch(`/comments`, {
       method: "POST",
       headers: {
@@ -42,6 +42,7 @@ function CommentList({
             setComments(allCommentsWithNew)
             setCommentDescription("")
             setIsAddingComment(false)
+            setIsShowingAllComments(true)
           })
         } else {
           r.json().then((err) => {
@@ -69,48 +70,57 @@ function CommentList({
 
   return (
     <>
-      {comments && comments?.length > 0 ? (comments?.map((comment) =>
-        <>
-          <Comment
-            key={comment.id}
-            id={comment.id}
-            comment={comment}
-            handleCommentDeleteClick={handleCommentDeleteClick}
-            post={post}
-          />
-        </>
-      )
-      ) : "This post has no comments yet!"}
+      <div className="flex flex-col items-start justify-between">
+        <div className="flex w-[500px] h-fit flex-col items-start gap-2">
+          {comments && comments?.length > 0 ? (comments?.map((comment) =>
+            <>
+              <Comment
+                key={comment.id}
+                id={comment.id}
+                comment={comment}
+                handleCommentDeleteClick={handleCommentDeleteClick}
+                post={post}
+              />
+            </>
+          )
+          ) :
+            <span className="font-serif font-semibold">This post has no comments yet!</span>
+          }
+        </div>
 
-      {isAddingComment ?
-        <form className="flex items-center gap-2" onSubmit={handleCommentSubmit} type="submit">
-          <br></br>
-          <FormField>
-            <textarea
-              placeholder="Leave a comment..."
-              type="text"
-              className="rounded p-1 overflow-auto w-[400px] border-2 border-green-800"
-              rows="2"
-              value={commentDescription}
-              onChange={(e) => setCommentDescription(e.target.value)} />
-          </FormField>
 
-          <FormField>
-            <Button
-              type="button"
-              onClick={handleCommentSubmit}
-            >Submit</Button>
-          </FormField>
 
-          <FormField>
-            <div className="flex flex-col items-center justify-center text-red-700">
-              {errors?.map((err) => (
-                <ul key={err}>Error: {err}</ul>
-              ))}
-            </div>
-          </FormField>
-        </form>
-        : ""}
+        {isAddingComment ?
+          <form className="flex items-center gap-2" onSubmit={handleCommentSubmit} type="submit">
+            <br></br>
+            <FormField>
+              <textarea
+                placeholder="Leave a comment..."
+                type="text"
+                className="rounded p-1 overflow-auto w-[400px] border-2 border-green-800"
+                rows="2"
+                value={commentDescription}
+                onChange={(e) => setCommentDescription(e.target.value)} />
+            </FormField>
+
+            <FormField>
+              <Button
+                type="button"
+                onClick={handleCommentSubmit}
+              >
+                Submit</Button>
+            </FormField>
+
+            <FormField>
+              <div className="flex flex-col items-center justify-center text-red-700">
+                {errors?.map((err) => (
+                  <ul key={err}>Error: {err}</ul>
+                ))}
+              </div>
+            </FormField>
+          </form>
+          : ""}
+      </div>
     </>
   )
 }

@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   resources :users
   resources :categories
 
+  # resources: s3_uploads
+
   resources :users do
     resources :comments
   end
@@ -19,6 +21,14 @@ Rails.application.routes.draw do
 
   resources :categories do
     resources :posts
+  end
+
+  resources :users do
+    resources :likes
+  end
+
+  resources :posts do
+    resources :likes
   end
 
   # resources :users, only: [:show, :update] do
