@@ -1,17 +1,17 @@
+//packages
 import React, { useEffect, useState, useContext } from 'react'
+import { UserContext } from "../UserContext"
 import { useNavigate } from "react-router-dom"
+//components
 import SignupPage from "./SignupPage"
 import LoginForm from "./LoginForm"
+//styles
 import styled from "styled-components"
 import Button from "../styles/Button.js"
 import plants from "../plants.jpeg"
-import { UserContext } from "../UserContext"
 
 
-function LoginPage({
-
-
-}) {
+function LoginPage() {
 
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
@@ -47,10 +47,7 @@ function LoginPage({
           <br />
           {showLogin ? (
             <>
-              <LoginForm
-              // onLogin={onLogin}
-              // onLogin={setUser}
-              />
+              <LoginForm />
               <Divider />
               <div className="flex flex-col items-center justify-center gap-3">
                 <span>Don't have an account?</span>

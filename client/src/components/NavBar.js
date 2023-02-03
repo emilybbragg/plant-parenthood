@@ -1,3 +1,4 @@
+//packages
 import React, { useEffect, useContext } from "react"
 import { Link, useNavigate } from 'react-router-dom'
 import { UserContext } from "../UserContext"
@@ -14,11 +15,11 @@ function NavBar({ }) {
     }
   }, [])
 
-  useEffect(() => {
-    console.groupCollapsed("User from NavBar")
-    console.log(user)
-    console.groupEnd()
-  }, [user])
+  // useEffect(() => {
+  //   console.groupCollapsed("User from NavBar")
+  //   console.log(user)
+  //   console.groupEnd()
+  // }, [user])
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
@@ -33,7 +34,6 @@ function NavBar({ }) {
     <>
       <div className="flex flex-row items-center justify-between w-full h-[80px] gap-3 p-3 bg-green-800 opacity-40">
         <div className="flex items-center justify-start gap-4">
-          <div className="w-14 h-14 border-2 rounded-full">Avatar Here</div>
           <span className="font-serif font-semibold text-4xl text-white">Hello, {user?.username}!</span>
         </div>
         <div className="flex flex-row justify-end items-center gap-3">
@@ -45,8 +45,6 @@ function NavBar({ }) {
           </Link>
           <Link
             to={`/users/${user?.id}`}
-            // to="/users/userId"
-
             className="text-white w-[100px] h-[40px] p-2 rounded-lg flex justify-center items-center hover:border-2 !border-white"
           >
             My Profile

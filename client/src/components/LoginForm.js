@@ -1,8 +1,10 @@
-import React, { useState, useContext } from 'react';
+//packages
+import React, { useState, useContext } from 'react'
+import { UserContext } from "../UserContext"
+//styles
 import FormField from "../styles/FormField.js"
 import Input from "../styles/Input.js"
 import Button from "../styles/Button.js"
-import { UserContext } from "../UserContext"
 
 
 function LoginForm({

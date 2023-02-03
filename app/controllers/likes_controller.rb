@@ -1,6 +1,5 @@
 class LikesController < ApplicationController
   before_action :find_post
-  # before_action :find_like, only: [:destroy]
 
   def index
     if params[:post_id]
@@ -35,14 +34,6 @@ class LikesController < ApplicationController
     end
   end
 
-  # def destroy
-  #   like = @current_user.likes.find(params[:id])
-  #   # like = Like.find(params[:id])
-  #   like.destroy
-  #   head :no_content
-  # end
-
-
   private
 
   def like_params
@@ -57,9 +48,5 @@ class LikesController < ApplicationController
     Like.where(user_id: @current_user.id, post_id:
     params[:post_id]).exists?    
   end
-
-  # def find_like
-  #   @like = @post.likes.find(params[:id])
-  # end
 
 end

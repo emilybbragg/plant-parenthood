@@ -1,12 +1,11 @@
+//packages
 import React, { useState } from "react"
 import { useParams } from "react-router-dom"
 
 
 function EditPost({
-
   handleUpdatePost,
   setIsEditing
-
 }) {
   const { postId } = useParams()
 
@@ -28,7 +27,7 @@ function EditPost({
       .then((updatedPost) => {
         handleUpdatePost(updatedPost)
       })
-      .then(() => setIsEditing(false));
+      .then(() => setIsEditing(false))
   }
 
   function handleCaptionChange(e) {

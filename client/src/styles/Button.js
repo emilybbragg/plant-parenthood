@@ -4,11 +4,7 @@ const COLORS = {
   primary: {
     "--main": "white",
     "--accent": "black",
-  },
-  // secondary: {
-  //   "--main": "lavenderblush",
-  //   "--accent": "indigo",
-  // },
+  }
 };
 
 function Button({ variant = "fill", color = "primary", ...props }) {
@@ -18,7 +14,6 @@ function Button({ variant = "fill", color = "primary", ...props }) {
   } else if (variant === "outline") {
     Component = OutlineButton;
   }
-
   return <Component style={COLORS[color]} {...props} />;
 }
 

@@ -11,21 +11,11 @@ class CommentsController < ApplicationController
     end
   end
 
-  # def show
-  #   comment = Comment.find(params[:id])
-  #   render json: comment
-  # end
-
-  # def create
-  #   comment = @current_user.comments.create!(comment_params)
-  #   render json: comment, status: :created
-  # end
-
   def create
+      #   comment = @current_user.comments.create!(comment_params)
     comment = Comment.create!(comment_params)
     render json: comment, status: :created
   end
-
 
   def destroy
     # comment = @current_user.comments.find(params[:id])

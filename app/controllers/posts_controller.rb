@@ -11,15 +11,12 @@ class PostsController < ApplicationController
     end
   end
 
-
-  # def index
-  #   posts = Post.all
-  #   render json: posts
-  # end
-
   def show
-    post = Post.find(params[:id])
+    # post = Post.find(params[:id])
+    post = find_post
+    # image = rails_blob_path(post.image)
     render json: post
+    # render json: {post: post, image: image}
     # render json: {post: post, image_url: image(post)}
   end
 
@@ -42,11 +39,14 @@ class PostsController < ApplicationController
     head :no_content
   end
 
-
   private
 
   def post_params
     params.permit(:caption, :user_id, :category_id, :image)
+  end
+
+   def find_post
+      Post.find(params[:id])
   end
 
 end

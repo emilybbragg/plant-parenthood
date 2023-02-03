@@ -1,15 +1,15 @@
+//packages
 import React, { useState, useEffect, useContext } from "react"
 import { useNavigate } from "react-router-dom"
-
+//components
 import Post from "./Post"
+//styling
 import plant from "../plant.jpeg"
 
-
 function Home({
-
   posts,
-  setPosts
-
+  setPosts,
+  selectedImage
 }) {
   const navigate = useNavigate()
 
@@ -35,7 +35,6 @@ function Home({
           setPosts(posts)
         }
       })
-    console.log(posts)
   }, [])
 
   useEffect(() => {
@@ -64,7 +63,8 @@ function Home({
       >
         <div className="flex flex-row items-center h-fit w-fit p-3 rounded-xl">
           <div className="flex items-center  w-full h-[80px] gap-8">
-            <button className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
+            <button
+              className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
               onClick={() => navigate("/posts/newpost")}
             >
               Create a New Post
@@ -96,6 +96,7 @@ function Home({
                 key={post.id}
                 id={post.id}
                 post={post}
+                selectedImage={selectedImage}
               />
             </div>
           ))

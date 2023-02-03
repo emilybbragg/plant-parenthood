@@ -1,3 +1,4 @@
+//packages
 import React, { useContext } from "react"
 import { UserContext } from "../UserContext"
 
@@ -14,13 +15,11 @@ function Comment({
         <>
           <span className="font-semibold">{comment?.username || comment?.user?.username || ""}</span>
           <span className="">{comment?.description}</span>
-
           {comment?.user_id == user?.id ?
             <button className="" onClick={() => handleCommentDeleteClick(comment)}>
               <span role="img" aria-label="delete">🗑</span>
-            </button> : ""
-          }
-
+            </button> :
+            ""}
         </>
       </ul>
     </>

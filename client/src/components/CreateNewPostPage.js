@@ -1,27 +1,30 @@
+//packages
 import React, { useState, useEffect, useContext, useRef } from "react"
+import { UserContext } from "../UserContext"
 import { useNavigate } from "react-router-dom"
+//styles
 import Button from "../styles/Button.js"
 import plant from "../plant.jpeg"
-import { UserContext } from "../UserContext"
 
 
 function CreateNewPostPage({
-
-  posts,
-  setPosts,
-
+  selectedImage,
+  setSelectedImage
 }) {
 
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
+  const imageUpload = useRef()
 
   const [postCaption, setPostCaption] = useState("")
   const [errors, setErrors] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
+
   const navigateToHome = () => {
     navigate("/posts")
   }
+
   useEffect(() => {
     fetch("/categories")
       .then((r) => r.json())
@@ -31,10 +34,6 @@ function CreateNewPostPage({
         }
       })
   }, [])
-
-  const [selectedImage, setSelectedImage] = useState({})
-  const imageUpload = useRef()
-  // console.log(imageUpload.current)
 
   function handlePostSubmit(e) {
     e.preventDefault();
@@ -48,6 +47,7 @@ function CreateNewPostPage({
       method: "POST",
       body: formData
     })
+    navigateToHome()
   }
 
   // function handlePostSubmit(e) {
@@ -94,24 +94,13 @@ function CreateNewPostPage({
     >
       <div className="flex flex-col items-center justify-center h-[600px] w-[500px] rounded-b border-2 border-white bg-white">
         <form className="flex flex-col items-center justify-between w-full px-4 h-fit gap-10" onSubmit={handlePostSubmit}>
-
           <div className="flex items-center justify-center h-[300px] w-full px-4 border-2 rounded-sm border-black">
-            {/* <input
-              type="file"
-              onChange={(e) => setSelectedImage(e.target.files[0])}
-              // value={selectedImage}
-              accept="image/png, image/jpeg"
-              ref={imageUpload}
-            />
-          </div> 
-           <form onSubmit={handleImageSubmit}> */}
             <input type="file"
               onChange={e => setSelectedImage(e.target.files[0])}
               ref={imageUpload}
               accept="image/png, image/jpeg"
             />
           </div>
-
           <div className="grid grid-cols-6 gap-1 h-[200px] w-full bg-green-800 opacity-40 rounded">
             <div className="flex items-center justify-center pt-8 pl-8 col-span-3">
               <textarea

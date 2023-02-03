@@ -1,8 +1,5 @@
 import React from "react"
 
-// MUI library can be viewed:
-// https://mui.com/material-ui/material-icons/#main-content
-
 // new <path /> added to IconInternals should come from:
 // https://github.com/mui/material-ui/tree/master/packages/mui-icons-material/material-icons
 
@@ -31,4 +28,4 @@ const Icon = ({ className = "", icon = "" }) => {
     </svg>
   )
 }
-export default Icon
+export default Icon;

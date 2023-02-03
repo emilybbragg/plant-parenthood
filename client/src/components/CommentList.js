@@ -1,20 +1,20 @@
+//packages
 import React, { useState, useEffect, useContext } from "react"
+import { UserContext } from "../UserContext"
+//components
 import Comment from "./Comment"
+//styles
 import FormField from "../styles/FormField"
 import Button from "../styles/Button"
-import { UserContext } from "../UserContext"
 
 
 function CommentList({
-
   post,
   comments,
   setComments,
   isAddingComment,
   setIsAddingComment,
-  setIsShowingAllComments,
-  postId
-
+  setIsShowingAllComments
 }) {
   const { user, setUser } = useContext(UserContext)
 

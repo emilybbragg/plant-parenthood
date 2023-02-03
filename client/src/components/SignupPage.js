@@ -1,14 +1,12 @@
+//packages
 import React, { useState, useContext } from 'react'
+import { UserContext } from "../UserContext"
+//styles
 import FormField from "../styles/FormField"
 import Button from "../styles/Button.js"
 import Input from "../styles/Input.js"
-import { UserContext } from "../UserContext"
 
-function SignupPage({
-
-  bio
-
-}) {
+function SignupPage({ bio }) {
 
   const { user, setUser } = useContext(UserContext)
 
@@ -16,8 +14,8 @@ function SignupPage({
   const [password, setPassword] = useState("")
   const [passwordConfirmation, setPasswordConfirmation] = useState("")
   const [name, setName] = useState("")
-  const [errors, setErrors] = useState([])
   const [isLoading, setIsLoading] = useState(false)
+  const [errors, setErrors] = useState([])
 
   function handleSubmit(e) {
     e.preventDefault()

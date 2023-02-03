@@ -1,19 +1,15 @@
-import React, { useState, useEffect, useContext } from "react"
+//packages
+import React, { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+//components
 import Post from "./Post"
+//styles
 import plant from "../plant.jpeg"
 import Button from "../styles/Button.js"
-import { useNavigate } from "react-router-dom"
-import { UserContext } from "../UserContext"
 
 
-function ProfilePage({
-
-  bio
-
-}) {
-
-  // const { user, setUser } = useContext(UserContext)
+function ProfilePage({ bio }) {
   const [user, setUser] = useState(null)
   const { userId } = useParams()
   const navigate = useNavigate()
@@ -22,8 +18,8 @@ function ProfilePage({
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [categories, setCategories] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
-  const [updatedBio, setUpdatedBio] = useState("")
-  const [currentUserBio, setCurrentUserBio] = useState(user?.bio)
+  // const [updatedBio, setUpdatedBio] = useState("")
+  // const [currentUserBio, setCurrentUserBio] = useState(user?.bio)
 
   useEffect(() => {
     fetch("/categories")
@@ -35,8 +31,6 @@ function ProfilePage({
       })
   }, [])
 
-
-
   useEffect(() => {
     if (userId) {
       fetch(`/users/${userId}`)
@@ -47,6 +41,19 @@ function ProfilePage({
     }
   }, [userId])
 
+  useEffect(() => {
+    setFilteredPosts(user?.posts?.reverse())
+  }, [user])
+
+  useEffect(() => {
+    if (selectedCategory === "default") {
+      setFilteredPosts(user?.posts?.reverse())
+    }
+    else {
+      const filteredPosts = user?.posts?.filter((post) => selectedCategory == post?.category_id)
+      setFilteredPosts(filteredPosts?.reverse())
+    }
+  }, [selectedCategory])
 
   //UPDATING USER BIO
   // function handleUpdateUserRequest() {
@@ -68,21 +75,6 @@ function ProfilePage({
   //   setIsEditing(false)
   // }
 
-  useEffect(() => {
-    setFilteredPosts(user?.posts?.reverse())
-  }, [user])
-
-  useEffect(() => {
-    if (selectedCategory === "default") {
-      setFilteredPosts(user?.posts?.reverse())
-    }
-    else {
-      const filteredPosts = user?.posts?.filter((post) => selectedCategory == post?.category_id)
-      setFilteredPosts(filteredPosts?.reverse())
-    }
-  }, [selectedCategory])
-
-
   return (
     <>
       <div className="flex p-[3rem]"
@@ -95,7 +87,6 @@ function ProfilePage({
       >
         <div className="flex flex-col">
           <div className="flex flex-col items-center justify-center h-[600px] w-[500px] rounded-b border-2 border-white bg-white shrink-0">
-            <span className="flex items-center justify-center h-[300px] w-[300px] border-2 rounded-full border-black">Add Photo</span>
             <div className="flex flex-col items-center justify-center h-fit min-h-[200px] w-[450px] bg-green-800 opacity-40 rounded items-center">
               <div className="flex flex-col items-center justify-center w-full h-fit min-h-[200px]">
                 <span className="text-white text-lg font-bold">
@@ -104,15 +95,13 @@ function ProfilePage({
                 <hr className="w-[20rem] h-1 mx-auto my-4 bg-white border-0 rounded" />
                 {isEditing ?
                   <input
+                    className="flex text-center rounded p-1 h-[100px] w-[300px] overflow-auto"
+                    placeholder="Add Your Bio Here!"
                     value={bio}
                     onChange={(e) => setCurrentUserBio(e.target.value)}
-                    placeholder="Add Your Bio Here!"
-                    className="flex text-center rounded p-1 h-[100px] w-[300px] overflow-auto"
                   /> :
                   bio ?
-                    <span className="flex text-center">
-                      {bio}
-                    </span> :
+                    <span className="flex text-center">{bio}</span> :
                     <span className="text-white">Edit your profile to add your bio here!</span>
                 }
               </div>
@@ -123,9 +112,7 @@ function ProfilePage({
                   >
                     Save
                   </Button> :
-                  <Button onClick={() => setIsEditing((isEditing) => !isEditing)}>
-                    Edit
-                  </Button>
+                  <Button onClick={() => setIsEditing((isEditing) => !isEditing)}>Edit</Button>
                 }
               </div>
             </div>
@@ -133,13 +120,13 @@ function ProfilePage({
         </div>
         <div className="w-full flex flex-col items-center justify-center">
           <div className="flex w-full h-[80px] gap-8 items-center justify-center pl-[70px]">
-            <button className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
+            <button
+              className="w-[175px] h-[50px] p-3 rounded bg-white text-green-800 opacity-60 hover:border-2 hover:border-green-800"
               onClick={() => navigate("/posts/newpost")}
             >
               Create a New Post
             </button>
             <select
-              name="categories"
               className="flex items-center justify-center w-[175px] h-[50px] p-3 rounded text-green-800 opacity-60 hover:border-2 hover:border-green-800"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}

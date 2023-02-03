@@ -1,29 +1,23 @@
-import { useState, useEffect, React, useContext } from "react"
+//packages
+import React, { useContext } from "react"
 import { useNavigate } from "react-router-dom"
-import EditPost from "./EditPost"
 import { UserContext } from "../UserContext"
-import CommentForm from "./CommentForm"
+//components
+import EditPost from "./EditPost"
 import Icon from "./Icons"
-import { handleClientScriptLoad } from "next/script"
 import PostLikes from "./PostLikes"
 
 function SinglePost({
-
   post,
+  postId,
+  postLikes,
+  setPostLikes,
   handleUpdatePost,
   handlePostDeleteClick,
   isEditing,
   setIsEditing,
-  comments,
-  setComments,
   setIsAddingComment,
-  postId,
-  setIsShowingAllComments,
-  isShowingAllComments,
-  handleLikeClick,
-  postLikes,
-  setPostLikes
-
+  setIsShowingAllComments
 }) {
 
   const { user, setUser } = useContext(UserContext)
@@ -32,7 +26,6 @@ function SinglePost({
   const navigateToProfile = (userId) => {
     navigate(`/users/${userId}`)
   }
-
 
   return (
     <>
@@ -44,7 +37,6 @@ function SinglePost({
           <div className={`flex flex-col p-3 h-fit w-[500px] gap-2 bg-white border-2 border-white text-black
             ${isEditing && post.user?.id == user.id ? "rounded-none" : post.user?.id == user.id ? "rounded-none" : "rounded-b"}
           `}>
-
             <div className="flex row items-start gap-2">
               <div className="flex items-center pt-[4px] gap-2">
                 <PostLikes
@@ -55,7 +47,6 @@ function SinglePost({
                 />
               </div>
             </div>
-
             <div className="flex items-start gap-2">
               <div className="flex items-center pt-[4px]">
                 <button onClick={() => setIsAddingComment(true)}>
@@ -68,12 +59,10 @@ function SinglePost({
                 View all comments
               </button>
             </div>
-
             <div className="flex gap-2">
               <button className="flex items-start font-bold" onClick={() => navigateToProfile(post?.user?.id)}>
                 {post?.username || post?.user?.username || ""}
               </button>
-
               {isEditing && post.user?.id == user.id ?
                 <EditPost
                   id={post.id}
@@ -90,9 +79,7 @@ function SinglePost({
               <span>{post?.category?.name || ""}</span>
             </div>
           </div>
-
         </ul>
-
         {!isEditing && post?.user?.id == user.id ? (
           <>
             <div className="flex justify-between bg-white rounded-b px-3 pb-3">
@@ -108,10 +95,6 @@ function SinglePost({
           </>
         ) : null}
       </div>
-
-
-
-      {/* <CommentForm /> */}
     </>
   )
 }

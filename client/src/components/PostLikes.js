@@ -1,18 +1,19 @@
+//packages
 import { React, useState, useContext } from "react"
 import { UserContext } from "../UserContext"
+//components
 import Icon from "./Icons"
 
 
 function PostLikes({
   setPostLikes,
   postLikes,
-  post,
-  postId
+  post
 }) {
 
   const { user, setUser } = useContext(UserContext)
-  const [errors, setErrors] = useState([])
   const [liked, setLiked] = useState(postLikes?.find((like) => like?.user_id == user?.id))
+  const [errors, setErrors] = useState([])
 
   function handlePostLikeClick() {
     const likeData = {
@@ -42,9 +43,7 @@ function PostLikes({
   }
 
   function handlePostLikeDeleteClick(likes) {
-    console.log(likes)
     const userLike = likes?.find((like) => like?.user_id == user?.id)
-
     fetch(`/likes/${userLike?.id}`, {
       method: "DELETE",
     })
@@ -75,34 +74,10 @@ function PostLikes({
       <button onClick={handleLikeButtonClick}>
         <Icon
           icon={liked ? "liked" : "unliked"}
-          className="h-4 w-4" />
+          className="h-4 w-4"
+        />
       </button>
-
-
-      {/* {liked ?
-        <button onClick={handlePostLikeClick}>
-          <Icon
-            icon="liked"
-            className="h-4 w-4" />
-        </button>
-        :
-        <button
-          onClick={handlePostLikeDeleteClick}
-        >
-          <Icon
-            icon="unliked"
-            className="h-4 w-4" />
-        </button>
-      } */}
       <span>{postLikes?.length || 0} likes</span>
-
-
-
-      {/* <button className=""
-        onClick={() => handlePostLikeDeleteClick(postLikes)}
-      >
-        <span role="img" aria-label="delete">🗑</span>
-      </button> */}
     </>
   )
 }

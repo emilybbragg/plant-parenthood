@@ -1,18 +1,19 @@
+//packages
 import React, { useState, useEffect, useContext } from 'react'
 import { UserContext } from "../UserContext"
 import { useNavigate } from "react-router-dom"
 import { useParams } from "react-router-dom"
+//components
 import SinglePost from './SinglePost'
-import plant from "../plant.jpeg"
 import CommentList from "./CommentList"
-import PostLikes from './PostLikes'
+//styles
+import plant from "../plant.jpeg"
 
 
 function SinglePostPage({
-
   setPosts,
-  post
-
+  selectedImage,
+  setSelectedImage
 }) {
 
   const { user, setUser } = useContext(UserContext)
@@ -20,11 +21,11 @@ function SinglePostPage({
   const { postId } = useParams()
 
   const [currentPost, setCurrentPost] = useState({})
-  const [isEditing, setIsEditing] = useState(false)
+  const [postLikes, setPostLikes] = useState([])
   const [comments, setComments] = useState([])
   const [isAddingComment, setIsAddingComment] = useState(false)
   const [isShowingAllComments, setIsShowingAllComments] = useState(false)
-  const [postLikes, setPostLikes] = useState([])
+  const [isEditing, setIsEditing] = useState(false)
 
   const navigateToHome = () => {
     navigate("/posts")
@@ -76,8 +77,6 @@ function SinglePostPage({
     setPosts(updatedPosts)
   }
 
-
-
   return (
     <>
       <div className="flex items-center justify-center py-[50px] gap-[9rem]"
@@ -89,7 +88,6 @@ function SinglePostPage({
         }}
       >
         <SinglePost
-          className=""
           key={currentPost.id}
           id={currentPost.id}
           post={currentPost}
@@ -104,14 +102,13 @@ function SinglePostPage({
           isShowingAllComments={isShowingAllComments}
           postLikes={postLikes}
           setPostLikes={setPostLikes}
-        // handleLikeClick={handleLikeClick}
+          selectedImage={selectedImage}
+          setSelectedImage={setSelectedImage}
         />
 
         {isShowingAllComments || isAddingComment ?
           <div className="flex border-2 border-white rounded p-3 h-fit min-h-[500px] w-[550px] overflow-y-scroll">
             <CommentList
-              // key={currentPost.id}
-              // id={currentPost.id}
               post={currentPost}
               postId={postId}
               comments={comments}
@@ -120,17 +117,7 @@ function SinglePostPage({
               setIsAddingComment={setIsAddingComment}
               setIsShowingAllComments={setIsShowingAllComments}
             />
-          </div>
-          : ""}
-
-
-        {/* <PostLikes
-          postLikes={postLikes}
-          setPostLikes={setPostLikes}
-          post={currentPost}
-          postId={postId}
-        /> */}
-
+          </div> : ""}
       </div>
     </>
   )

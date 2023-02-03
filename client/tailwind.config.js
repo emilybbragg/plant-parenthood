@@ -6,10 +6,6 @@ module.exports = {
       backgroundImage: {
         'plants': "url('../public/plants.jpeg')",
         'plant': "url('../public/plant.jpeg')",
-        'cactus': "url('../public/cactus.jpeg')"
-      },
-      colors: {
-        'viridian': '#40826D',
       },
     },
   },
