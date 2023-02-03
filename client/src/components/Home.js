@@ -35,6 +35,7 @@ function Home({
           setPosts(posts)
         }
       })
+    console.log(posts)
   }, [])
 
   useEffect(() => {

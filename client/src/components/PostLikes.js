@@ -12,6 +12,7 @@ function PostLikes({
 
   const { user, setUser } = useContext(UserContext)
   const [errors, setErrors] = useState([])
+  const [liked, setLiked] = useState(postLikes?.find((like) => like?.user_id == user?.id))
 
   function handlePostLikeClick() {
     const likeData = {
@@ -30,6 +31,7 @@ function PostLikes({
           r.json().then((newLike) => {
             const allLikesWithNew = [...postLikes, newLike]
             setPostLikes(allLikesWithNew)
+            setLiked(true)
           })
         } else {
           r.json().then((err) => {
@@ -39,38 +41,68 @@ function PostLikes({
       })
   }
 
-  function handleLikeDeleteClick(postLike) {
-    fetch(`/posts/${post.id}/likes`, {
+  function handlePostLikeDeleteClick(likes) {
+    console.log(likes)
+    const userLike = likes?.find((like) => like?.user_id == user?.id)
+
+    fetch(`/likes/${userLike?.id}`, {
       method: "DELETE",
     })
       .then((r) => {
         if (r.ok) {
-          deletePostLike(postLike)
+          deletePostLike(userLike)
+          setLiked(false)
         }
       })
   }
 
-  function deletePostLike() {
-    const updatedLikes = postLikes?.findIndex((postLikes) => post?.like?.id === user?.like?.id)
-    // .filter((like) => like?.id !== deletedLike.id)
+  function deletePostLike(deletedLike) {
+    const updatedLikes = postLikes?.filter((like) => like?.id !== deletedLike?.id)
     setPostLikes(updatedLikes)
+  }
+
+  function handleLikeButtonClick() {
+    if (liked) {
+      handlePostLikeDeleteClick(postLikes)
+    }
+    else {
+      handlePostLikeClick()
+    }
   }
 
   return (
     <>
-
-      <button
-        onClick={handlePostLikeClick}
-      >
+      <button onClick={handleLikeButtonClick}>
         <Icon
-          icon="like"
+          icon={liked ? "liked" : "unliked"}
           className="h-4 w-4" />
       </button>
+
+
+      {/* {liked ?
+        <button onClick={handlePostLikeClick}>
+          <Icon
+            icon="liked"
+            className="h-4 w-4" />
+        </button>
+        :
+        <button
+          onClick={handlePostLikeDeleteClick}
+        >
+          <Icon
+            icon="unliked"
+            className="h-4 w-4" />
+        </button>
+      } */}
       <span>{postLikes?.length || 0} likes</span>
 
-      <button className="" onClick={() => handleLikeDeleteClick(postLikes)}>
+
+
+      {/* <button className=""
+        onClick={() => handlePostLikeDeleteClick(postLikes)}
+      >
         <span role="img" aria-label="delete">🗑</span>
-      </button>
+      </button> */}
     </>
   )
 }

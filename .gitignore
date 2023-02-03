@@ -34,4 +34,4 @@
 node_modules/
 
 ### ignore local env
-/config/local_env.yml
+# /config/local_env.yml

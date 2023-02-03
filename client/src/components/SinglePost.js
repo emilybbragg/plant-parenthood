@@ -34,7 +34,6 @@ function SinglePost({
   }
 
 
-  console.log(post)
   return (
     <>
       <div className="flex flex-col">

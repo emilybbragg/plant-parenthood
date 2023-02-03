@@ -1,4 +1,6 @@
 class LikesController < ApplicationController
+  before_action :find_post
+  # before_action :find_like, only: [:destroy]
 
   def index
     if params[:post_id]
@@ -13,7 +15,7 @@ class LikesController < ApplicationController
 
   def create
     if already_liked?
-      "you cant like this more than once"
+      flash[:alert] = ""
     else
     # like = Like.create!(like_params)
     like = @current_user.likes.create!(like_params)
@@ -21,16 +23,24 @@ class LikesController < ApplicationController
     end
   end
 
+  def destroy
+    # if !(already_liked?)
+    like = Like.find(params[:id])
+      if like.user_id = @current_user.id
+        like.destroy
+        head :no_content
+    else 
+      # like = Like.find(params[:id])
+      flash[:alert] = "message"
+    end
+  end
 
   # def destroy
-  #   if params[:post_id]
-  #     post = Post.find(params[:post_id])
-  #     likes = post.likes
-  #     render json: likes
+  #   like = @current_user.likes.find(params[:id])
   #   # like = Like.find(params[:id])
   #   like.destroy
   #   head :no_content
-  # end  
+  # end
 
 
   private
@@ -39,9 +49,17 @@ class LikesController < ApplicationController
     params.permit(:user_id, :post_id)
   end
 
+  def find_post
+    @post = Post.find_by(id: params[:id])
+  end
+
   def already_liked?
     Like.where(user_id: @current_user.id, post_id:
     params[:post_id]).exists?    
   end
+
+  # def find_like
+  #   @like = @post.likes.find(params[:id])
+  # end
 
 end

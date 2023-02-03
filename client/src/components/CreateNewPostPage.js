@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import Button from "../styles/Button.js"
 import plant from "../plant.jpeg"
@@ -15,16 +15,13 @@ function CreateNewPostPage({
   const { user, setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
-  const [postImage, setPostImage] = useState("")
   const [postCaption, setPostCaption] = useState("")
   const [errors, setErrors] = useState([])
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
-
   const navigateToHome = () => {
     navigate("/posts")
   }
-
   useEffect(() => {
     fetch("/categories")
       .then((r) => r.json())
@@ -35,39 +32,56 @@ function CreateNewPostPage({
       })
   }, [])
 
+  const [selectedImage, setSelectedImage] = useState({})
+  const imageUpload = useRef()
+  // console.log(imageUpload.current)
+
   function handlePostSubmit(e) {
-    e.preventDefault()
-    setErrors([])
-    const postData = {
-      image: postImage,
-      caption: postCaption,
-      user_id: user?.id,
-      category_id: selectedCategory
-    }
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('image', selectedImage)
+    formData.append('user_id', user?.id)
+    formData.append('caption', postCaption)
+    formData.append('category_id', selectedCategory)
+    console.log(formData)
     fetch("/posts", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(postData),
+      body: formData
     })
-      .then((r) => {
-        if (r.ok) {
-          r.json().then((newPost) => {
-            // console.log(newPost)
-            const allPostsWithNew = [...posts, newPost]
-            setPosts(allPostsWithNew);
-            setPostImage("")
-            setPostCaption("")
-            setSelectedCategory([])
-            navigateToHome()
-          })
-        }
-        else {
-          r.json().then((err) => setErrors[err.errors])
-        }
-      })
   }
+
+  // function handlePostSubmit(e) {
+  //   e.preventDefault()
+  //   setErrors([])
+  //   const postData = {
+  //     caption: postCaption,
+  //     user_id: user?.id,
+  //     category_id: selectedCategory
+  //   }
+  //   fetch("/posts", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(postData),
+  //   })
+  //     .then((r) => {
+  //       if (r.ok) {
+  //         r.json().then((newPost) => {
+  //           console.log(newPost)
+  //           const allPostsWithNew = [...posts, newPost]
+  //           setPosts(allPostsWithNew);
+  //           // setSelectedImage(null)
+  //           setPostCaption("")
+  //           setSelectedCategory([])
+  //           navigateToHome()
+  //         })
+  //       }
+  //       else {
+  //         r.json().then((err) => setErrors[err.errors])
+  //       }
+  //     })
+  // }
 
   return (
     <div className="flex flex-col items-center pt-[50px]"
@@ -80,7 +94,24 @@ function CreateNewPostPage({
     >
       <div className="flex flex-col items-center justify-center h-[600px] w-[500px] rounded-b border-2 border-white bg-white">
         <form className="flex flex-col items-center justify-between w-full px-4 h-fit gap-10" onSubmit={handlePostSubmit}>
-          <span className="flex items-center justify-center h-[300px] w-full px-4 border-2 rounded-sm border-black">Add Photo</span>
+
+          <div className="flex items-center justify-center h-[300px] w-full px-4 border-2 rounded-sm border-black">
+            {/* <input
+              type="file"
+              onChange={(e) => setSelectedImage(e.target.files[0])}
+              // value={selectedImage}
+              accept="image/png, image/jpeg"
+              ref={imageUpload}
+            />
+          </div> 
+           <form onSubmit={handleImageSubmit}> */}
+            <input type="file"
+              onChange={e => setSelectedImage(e.target.files[0])}
+              ref={imageUpload}
+              accept="image/png, image/jpeg"
+            />
+          </div>
+
           <div className="grid grid-cols-6 gap-1 h-[200px] w-full bg-green-800 opacity-40 rounded">
             <div className="flex items-center justify-center pt-8 pl-8 col-span-3">
               <textarea

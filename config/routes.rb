@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
+  # get 's3/direct_post'
+  # resources: s3_uploads
+  default_url_options Rails.application.config.action_mailer.default_url_options
+  
   resources :likes
   resources :comments
   resources :posts
   resources :users
   resources :categories
-
-  # resources: s3_uploads
 
   resources :users do
     resources :comments
