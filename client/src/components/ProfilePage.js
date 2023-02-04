@@ -97,8 +97,8 @@ function ProfilePage({ bio }) {
                   <input
                     className="flex text-center rounded p-1 h-[100px] w-[300px] overflow-auto"
                     placeholder="Add Your Bio Here!"
-                    value={bio}
-                    onChange={(e) => setCurrentUserBio(e.target.value)}
+                  // value={bio}
+                  // onChange={(e) => setCurrentUserBio(e.target.value)}
                   /> :
                   bio ?
                     <span className="flex text-center">{bio}</span> :
