@@ -12,11 +12,14 @@ class PostSerializer < ActiveModel::Serializer
   has_many :users, {:through=>:comments, :source=>"user"}
 
   def image
-    rails_blob_path(object.image, only_path: true) if object.image.attached?
+    rails_blob_path(object.image) if object.image.attached?
+  end
+
+  # , only_path: true
     # image.variant(resize: '100x100').processed
     # rails_blob_path(object.image.representation(resize: '200x200')) if object.image.attached?
     # object.image.resize([200, 200])
-  end
+
 
   # .variant(resize_to_limit: [200, 200])
 end
