@@ -27,12 +27,14 @@ function SinglePost({
     navigate(`/users/${userId}`)
   }
 
+  console.log(post)
+
   return (
     <>
       <div className="flex flex-col">
         <ul className="flex flex-col">
           <div className="flex flex-col items-center justify-between h-[500px] w-[500px] bg-green-800 text-black border-4 border-white rounded-t">
-            <div>{post?.image}</div>
+            <img src={post?.image} />
           </div>
           <div className={`flex flex-col p-3 h-fit w-[500px] gap-2 bg-white border-2 border-white text-black
             ${isEditing && post.user?.id == user.id ? "rounded-none" : post.user?.id == user.id ? "rounded-none" : "rounded-b"}

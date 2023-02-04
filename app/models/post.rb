@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  has_one_attached :image
+  has_one_attached :image, dependent: :destroy
 
   belongs_to :user
   belongs_to :category
@@ -9,6 +9,8 @@ class Post < ApplicationRecord
 
   has_many :users, through: :likes
   has_many :users, {:through=>:comments, :source=>"user"}
+
+  # validates :photos, presence: true, blob: { content_type: ['image/png', 'image/jpg', 'image/jpeg'], size_range: 1..5.megabytes
 
   # def image_url
   #   Rails.application.routes.url_helpers.rails_representation_url(

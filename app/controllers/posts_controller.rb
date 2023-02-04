@@ -12,8 +12,9 @@ class PostsController < ApplicationController
   end
 
   def show
-    # post = Post.find(params[:id])
-    post = find_post
+    post = Post.find(params[:id])
+    # post.image.attach(params[:image])
+    # post = post.with_attached_image
     # image = rails_blob_path(post.image)
     render json: post
     # render json: {post: post, image: image}

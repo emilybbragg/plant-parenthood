@@ -21,10 +21,6 @@ function CreateNewPostPage({
   const [categories, setCategories] = useState([])
   const [selectedCategory, setSelectedCategory] = useState(null)
 
-  const navigateToHome = () => {
-    navigate("/posts")
-  }
-
   useEffect(() => {
     fetch("/categories")
       .then((r) => r.json())
@@ -47,7 +43,7 @@ function CreateNewPostPage({
       method: "POST",
       body: formData
     })
-    navigateToHome()
+    window.location.href = "/posts"
   }
 
   // function handlePostSubmit(e) {

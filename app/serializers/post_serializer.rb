@@ -13,8 +13,12 @@ class PostSerializer < ActiveModel::Serializer
 
   def image
     rails_blob_path(object.image, only_path: true) if object.image.attached?
+    # image.variant(resize: '100x100').processed
+    # rails_blob_path(object.image.representation(resize: '200x200')) if object.image.attached?
+    # object.image.resize([200, 200])
   end
 
+  # .variant(resize_to_limit: [200, 200])
 end
 
 # def image
